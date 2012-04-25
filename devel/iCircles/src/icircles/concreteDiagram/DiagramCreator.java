@@ -985,13 +985,6 @@ public class DiagramCreator {
         DEB_show_frame(3, debug_image_number, debug_size);
         debug_image_number++;
     }
-    private static Color[] colors = {
-        new Color(0, 100, 0), // dark green
-        Color.red,
-        Color.blue,
-        new Color(150, 50, 0),
-        new Color(0, 50, 150),
-        new Color(100, 0, 100)};
 
     private void set_colour(CircleContour cc) {
         String s = cc.ac.getLabel().getLabel();
@@ -1000,11 +993,11 @@ public class DiagramCreator {
         }
         char c = s.charAt(0);
         int n = Character.getNumericValue(c) - Character.getNumericValue('a');
-        while (n < colors.length) {
-            n += colors.length;
+        while (n < Colors.COLORS.length) {
+            n += Colors.COLORS.length;
         }
-        int col_index = n % colors.length;
-        cc.setColor(colors[col_index]);
+        int col_index = n % Colors.COLORS.length;
+        cc.setColor(Colors.COLORS[col_index]);
     }
 
     private CircleContour growCircleContour(Area a, AbstractCurve ac,
