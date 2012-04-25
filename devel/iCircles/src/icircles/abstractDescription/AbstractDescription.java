@@ -294,6 +294,36 @@ public class AbstractDescription {
                 
         return result;
     }
+
+    // Build an AbstractDescription given a list of zones (no shaded zones or spiders).
+    // Initial version to allow Strings (longer than one char) as labels.
+    public static AbstractDescription makeForTesting(ArrayList<AbstractBasicRegion> zones) {
+
+        TreeSet<AbstractBasicRegion> ad_zones = new TreeSet<AbstractBasicRegion>();
+        AbstractBasicRegion outsideZone = AbstractBasicRegion.get(new TreeSet<AbstractCurve>());
+        ad_zones.add(outsideZone);
+        HashMap<CurveLabel, AbstractCurve> contours = new HashMap<CurveLabel, AbstractCurve>();
+        if(zones != null)
+        {
+        	for(AbstractBasicRegion z: zones) {
+        		TreeSet<AbstractCurve> zoneContours = new TreeSet<AbstractCurve>();
+        		for(AbstractCurve c: z.m_in_set) {
+        			CurveLabel cl = c.m_label;
+        			if (!contours.containsKey(cl)) {
+	                    contours.put(cl, c);
+	                }
+        			zoneContours.add(contours.get(cl));
+        		}
+	            ad_zones.add(z);
+        	}
+        }
+        TreeSet<AbstractCurve> ad_contours = new TreeSet<AbstractCurve>(contours.values());
+        
+        // no shaded zones for now
+        TreeSet<AbstractBasicRegion> ad_shaded_zones = new TreeSet<AbstractBasicRegion>();
+        AbstractDescription result = new AbstractDescription(ad_contours, ad_zones, ad_shaded_zones);     
+        return result;
+    }
     /*
     public static void main(String args[])
     {
