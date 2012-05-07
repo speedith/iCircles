@@ -318,7 +318,7 @@ public class DiagramCreator {
                             ConcreteZone cz = makeConcreteZone(abr);
                             Area a = new Area(cz.getShape(box));
                             
-                            double new_y = old_y + 2 * tol;
+                            double new_y = old_y + 5 * tol;
 //    	                    double new_x = old_x + 2 * tol;
                             double new_x = old_x;
                             CircleContour test = new CircleContour(new_x, new_y, tol, null);
@@ -333,8 +333,8 @@ public class DiagramCreator {
                                     break;                                	
                                 }
                             }
-                            new_x = old_x - 2 * tol;
-                            new_y = old_y - 2 * tol;
+                            new_x = old_x - 5 * tol;
+                            new_y = old_y - 5 * tol;
                             test = new CircleContour(new_x, new_y, tol, null);
                             if (containedIn(test, a)) {
                                 foot.setX(new_x);
@@ -347,8 +347,8 @@ public class DiagramCreator {
                                     break;                                	
                                 }
                             }
-                            new_x = old_x + 2 * tol;
-                            new_y = old_y - 2 * tol;
+                            new_x = old_x + 5 * tol;
+                            new_y = old_y - 5 * tol;
                             test = new CircleContour(new_x, new_y, tol, null);
                             if (containedIn(test, a)) {
                                 foot.setX(new_x);
@@ -361,8 +361,8 @@ public class DiagramCreator {
                                     break;                                	
                                 }
                             }
-                            new_x = old_x - 2 * tol;
-                            new_y = old_y + 2 * tol;
+                            new_x = old_x - 5 * tol;
+                            new_y = old_y + 5 * tol;
                             test = new CircleContour(new_x, new_y, tol, null);
                             if (containedIn(test, a)) {
                                 foot.setX(new_x);

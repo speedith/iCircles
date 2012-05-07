@@ -273,8 +273,8 @@ public class CirclesPanelEx extends javax.swing.JPanel {
                  */
 
                 g2d.drawString(cc.ac.getLabel().getLabel(),
-                        (int) (cc.getLabelXPosition() * trans.getScaleX()),
-                        (int) (cc.getLabelYPosition() * trans.getScaleY()));
+                        (int) (cc.getLabelXPosition() * trans.getScaleX()) + 5,
+                        (int) (cc.getLabelYPosition() * trans.getScaleY()) + 5);
             }
 
             ConcreteSpider highlightedSpider = getHighlightedFoot() == null ? null : getHighlightedFoot().getSpider();
@@ -320,8 +320,8 @@ public class CirclesPanelEx extends javax.swing.JPanel {
                 // TODO a proper way to place labels - it can't be a method in ConcreteSpider,
                 // we need the context in the ConcreteDiagram
                 g2d.drawString(s.as.get_name(),
-                        (int) ((s.feet.get(0).getX() + 5) * trans.getScaleX()),
-                        (int) ((s.feet.get(0).getY() - 5) * trans.getScaleY()));
+                        (int) ((s.feet.get(0).getX()) * trans.getScaleX()) - 5,
+                        (int) ((s.feet.get(0).getY()) * trans.getScaleY()) - 10);
 
                 // Reset the stroke and colour appropriatelly.
                 if (highlightedSpider == s) {
