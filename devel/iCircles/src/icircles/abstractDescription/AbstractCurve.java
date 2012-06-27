@@ -67,7 +67,7 @@ public class AbstractCurve implements Comparable<AbstractCurve> {
 
     public double checksum() {
         if (DEB.level >= 2) {
-            System.out.println("build checksum from " + m_label.m_label 
+            System.out.println("build checksum from " + m_label.getLabel()
             		       + " (and not " + m_id + ")\ngiving "+m_label.checksum());
         }
         return m_label.checksum() /* * m_id */;
@@ -79,7 +79,7 @@ public class AbstractCurve implements Comparable<AbstractCurve> {
         CurveLabel.clearLibrary();
     }
 
-	public String journalString() {
-		return m_label.m_label;
-	}
+    public String journalString() {
+	return m_label.getLabel();
+    }
 }

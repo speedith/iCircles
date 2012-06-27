@@ -7,8 +7,8 @@ import icircles.util.DEB;
 
 public class CurveLabel implements Comparable<CurveLabel> {
 
-    String m_label;
-    static Set<CurveLabel> m_library = new TreeSet<CurveLabel>();
+    private String m_label;
+    private static Set<CurveLabel> m_library = new TreeSet<CurveLabel>();
     // or use a WeakReference - then the WeakHashMap will be emptied when
     // there will be no references for the members any more
     // but beware to put the item into the WeakHashMap just after you've 
