@@ -224,7 +224,7 @@ public class TestCode {
             int size) {
         // clear the static id counter for abstract curves
         if (!view_failure) {
-            AbstractCurve.reset_id_counter();
+	    //            AbstractCurve.reset_id_counter();
             //AbstractBasicRegion.clearLibrary();
             //CurveLabel.clearLibrary();
         }
@@ -358,7 +358,7 @@ public class TestCode {
         	
         } 
     		
-        AbstractCurve.reset_id_counter();
+	//        AbstractCurve.reset_id_counter();
         
         AbstractDescription ad = AbstractDescription.makeForTesting(desc, TestData.RANDOM_SHADING);
         DiagramCreator dc = new DiagramCreator(ad);
