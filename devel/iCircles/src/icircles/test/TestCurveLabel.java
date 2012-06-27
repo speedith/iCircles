@@ -18,7 +18,7 @@ import icircles.abstractDescription.CurveLabel;
  */
 
 @RunWith(org.jcheck.runners.JCheckRunner.class)
-class TestCurveLabel {
+public class TestCurveLabel {
     @Test
     public void testComparable () {
     }
