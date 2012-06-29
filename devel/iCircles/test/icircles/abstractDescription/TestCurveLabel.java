@@ -1,4 +1,4 @@
-package icircles.test;
+package icircles.abstractDescription;
 
 import org.junit.*;
 import org.junit.runner.RunWith;
