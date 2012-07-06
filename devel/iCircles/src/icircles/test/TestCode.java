@@ -1,6 +1,6 @@
 package icircles.test;
 
-import icircles.gui.CirclesPanel;
+import icircles.gui.CirclesPanelEx;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -290,15 +290,15 @@ public class TestCode {
             description = "" + test_num + ".description..";
         }
        
-        CirclesPanel cp;
+        CirclesPanelEx cp;
         if(cd != null)
         	{
-        	cp = new CirclesPanel(description, failureMessage, cd,
+        	cp = new CirclesPanelEx(description, failureMessage, cd,
                 true);// do use colours
         	}
         else
 	    	{
-	    	cp = new CirclesPanel(description, failureMessage, size);
+	    	cp = new CirclesPanelEx(description, failureMessage, size);
 	    	}
         	
         cp.setScaleFactor(TestData.scale);
