@@ -293,15 +293,15 @@ public class TestCode {
         CirclesPanelEx cp;
         if(cd != null)
         	{
-        	cp = new CirclesPanelEx(description, failureMessage, cd,
-                true);// do use colours
+		    cp = new CirclesPanelEx(cd);//description, failureMessage, cd,
+		    //                true);// do use colours
         	}
         else
 	    	{
-	    	cp = new CirclesPanelEx(description, failureMessage, size);
+		    cp = new CirclesPanelEx(cd); //, failureMessage, size);
 	    	}
         	
-        cp.setScaleFactor(TestData.scale);
+	//        cp.setScaleFactor(TestData.scale);
         return cp;
     }
 //	static Rectangle getBoundingBox(ConstructedConcreteDiagram ccd)
