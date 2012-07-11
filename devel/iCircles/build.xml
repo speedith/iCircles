@@ -44,13 +44,20 @@ Build, test, run and package iCricles.
     <target name="compile" depends="init"
             description="compile the source" >
         <!-- Compile the java code from ${src} into ${build} -->
-        <javac srcdir="${src}" destdir="${build}" debug="true" classpath="${lib}/batik-all.jar">
+        <javac srcdir="${src}" 
+        	destdir="${build}" 
+        	debug="true" 
+        	classpath="${lib}/batik-all.jar"
+        	includeantruntime="false"
+        	source="1.6"
+        	target="1.6"
+        	>
 	</javac>
     </target>
 
     <target name="test" depends="compile"
 	    description="test the project" >
-        <javac srcdir="${test}" destdir="${build}">
+        <javac srcdir="${test}" destdir="${build}" includeantruntime="false">
 	  <classpath refid="classpath.test" />
 	</javac>
     </target>
