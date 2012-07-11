@@ -19,7 +19,7 @@ Build, test, run and package iCricles.
     	<!-- Ensure ant has the JUnit taskdef -->
         <include name="ant-junit.jar"/>
 	<!-- Pull in JUnit -->
-	<include name="${lib}/junit4.jar"/>
+	<include name="junit4.jar"/>
 	<!-- Pull in JCheck -->
 	<include name="jcheck-0.1.jar"/>
       </fileset>

@@ -1,6 +1,6 @@
 package icircles.test;
 
-import icircles.gui.CirclesPanel;
+import icircles.gui.CirclesPanelEx;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -290,18 +290,18 @@ public class TestCode {
             description = "" + test_num + ".description..";
         }
        
-        CirclesPanel cp;
+        CirclesPanelEx cp;
         if(cd != null)
         	{
-        	cp = new CirclesPanel(description, failureMessage, cd,
-                true);// do use colours
+		    cp = new CirclesPanelEx(cd);//description, failureMessage, cd,
+		    //                true);// do use colours
         	}
         else
 	    	{
-	    	cp = new CirclesPanel(description, failureMessage, size);
+		    cp = new CirclesPanelEx(cd); //, failureMessage, size);
 	    	}
         	
-        cp.setScaleFactor(TestData.scale);
+	//        cp.setScaleFactor(TestData.scale);
         return cp;
     }
 //	static Rectangle getBoundingBox(ConstructedConcreteDiagram ccd)

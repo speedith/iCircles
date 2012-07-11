@@ -34,12 +34,20 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Ellipse2D.Double;
 import java.util.ArrayList;
 
+import javax.swing.JPanel;
+
+import org.apache.batik.svggen.SVGGraphics2D;
+import org.apache.batik.dom.GenericDOMImplementation;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.DOMImplementation;
+
 /**
  * This panel takes a {@link ConcreteDiagram concrete diagram} and draws it.
  *
  * @author Matej Urbas [matej.urbas@gmail.com]
  */
-public class CirclesPanelEx extends javax.swing.JPanel {
+public class CirclesPanelEx extends JPanel {
 
     // <editor-fold defaultstate="collapsed" desc="Private Fields">
     /**
@@ -502,4 +510,18 @@ public class CirclesPanelEx extends javax.swing.JPanel {
         return (this.getHeight() - (int) Math.round(diagram.getSize() * scaleFactor)) / 2;
     }
     // </editor-fold>
+
+    protected Graphics getComponentGraphics(Graphics g) {
+	// Get a DOMImplementation.
+        DOMImplementation domImpl =
+            GenericDOMImplementation.getDOMImplementation();
+
+	// Create an instance of org.w3c.dom.Document.
+        String svgNS = "http://www.w3.org/2000/svg";
+        Document document = domImpl.createDocument(svgNS, "svg", null);
+
+        // Create an instance of the SVG Generator.
+        SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
+	return svgGenerator;
+    }
 }

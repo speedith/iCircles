@@ -31,6 +31,7 @@ import icircles.concreteDiagram.ConcreteZone;
 import icircles.util.CannotDrawException;
 import icircles.util.DEB;
 
+
 public class CirclesPanel extends JPanel {
 
     /**
