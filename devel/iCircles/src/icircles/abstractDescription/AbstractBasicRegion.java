@@ -31,6 +31,9 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
         return result;
     }
 
+    /*
+     * Does not modify the object on which this method is called.
+     */
     public AbstractBasicRegion moveOutside(AbstractCurve c) {
         if (m_in_set.contains(c)) {
             TreeSet<AbstractCurve> contours = new TreeSet<AbstractCurve>(m_in_set);
@@ -151,10 +154,6 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
             scaling += 0.09;
         }
         return result;
-    }
-
-    public static void clearLibrary() {
-        m_library.clear();
     }
 
     public boolean isLabelEquivalent(AbstractBasicRegion z) {

@@ -343,7 +343,8 @@ public class CirclesPanel extends JPanel {
         	return new CirclesPanel(diagText, failuremessage, size); // do use colors
     }
 
-    public static void main(String[] args) {
+    /*
+     * public static void main(String[] args) {
         // See the implementation of makeForTesting to see how to make an 
         // AbstractDescription from scratch.
         AbstractDescription ad = AbstractDescription.makeForTesting(
@@ -366,7 +367,7 @@ public class CirclesPanel extends JPanel {
         viewingFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         viewingFrame.pack();
         viewingFrame.setVisible(true);
-    }
+    }*/
 
     ArrayList<CircleContour> getAllCircles() {
         return cd.getCircles();
