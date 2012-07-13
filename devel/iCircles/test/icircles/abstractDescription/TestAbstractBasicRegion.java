@@ -57,7 +57,7 @@ public class TestAbstractBasicRegion {
     @Test
     @Configuration(tests=100, size=20) //limit the AbstractCurve[] to be lower than 20 elements 
     @Generator(klass=AbstractCurve.class, generator=CustomAbstractCurveGen.class)
-    public void testMoveOutside(AbstractCurve[] acs) {
+    public void testMoveOutsideMoved_In(AbstractCurve[] acs) {
         if(0 == acs.length) {
 	    assertTrue(true);
 	    return;
@@ -108,11 +108,6 @@ public class TestAbstractBasicRegion {
     /*        
         @Test
         public void testGetStraddledContour() {
-	assertTrue(false);
-        }
-        
-        @Test
-        public void testMoved_in() {
 	assertTrue(false);
         }
         
