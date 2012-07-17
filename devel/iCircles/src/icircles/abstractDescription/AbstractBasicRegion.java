@@ -2,9 +2,26 @@ package icircles.abstractDescription;
 
 import java.util.Iterator;
 import java.util.TreeSet;
+import java.util.Set;
 
 import icircles.util.DEB;
 
+/**
+ * {@link AbstractBasicRegion} maintains a collection of {@link AbstractBasicRegion} objects.
+ *
+ * You normally create an {@link AbstractBasicRegion} by calling {@link AbstractBasicRegion #get}
+ * and pass in the set of {@link AbstractCurve} objects.  Normally you use {@link AbstractBasicRegion #get}
+ * in conjunction with {@link AbstractCurve} as follows:
+ * <pre>
+ * {@code
+ * CurveLabel cl             = new CurveLabel("Example");
+ * AbstractCurve ac          = new AbstractCurve(cl);
+ * Set<AbstractCurve> ts     = new TreeSet<AbstractCurve>();
+ * ts.add(ac);
+ * AbstractBasicRegion abr   = AbstractBasicRegion.get(ts);
+ * }
+ * </pre>
+ */
 public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
 
     TreeSet<AbstractCurve> m_in_set;
@@ -14,7 +31,7 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
         m_in_set = in_set;
     }
 
-    public static AbstractBasicRegion get(TreeSet<AbstractCurve> in_set) {
+    public static AbstractBasicRegion get(Set<AbstractCurve> in_set) {
         // TODO: This is quite an expensive way to look up already existing
         // objects. This should definitely be replaced by 'contains'.
         //
@@ -32,14 +49,16 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
     }
 
     /**
-     * Given an @AbstractBasicRegion inside an @AbstractCurve it returns
-     * a copy of an @AbstractBasicRegion where the passed @AbstractCurve is 
-     * removed.
+     * Given an {@link AbstractBasicRegion} inside an {@link AbstractCurve} it returns
+     * a copy of an {@link AbstractBasicRegion} where the passed {@link AbstractCurve} is
+     * removed.  In the case that the passed {@link AbstractCurve} is not a curve that
+     * this {@link AbstractBasicRegion} is inside then this {@link AbstractBasicRegion} is
+     * returned.
      *
      * Does not modify the object on which this method is called.
      *
-     * @param c An @AbstractCurve which this @AbstractBasicRegion is inside
-     * @return an @AbstractBasicRegion which has been moved outside c
+     * @param c An {@link AbstractCurve} which this {@link AbstractBasicRegion} is inside
+     * @return an {@link AbstractBasicRegion} which has been moved outside c
      */
     public AbstractBasicRegion moveOutside(AbstractCurve c) {
         if (m_in_set.contains(c)) {
@@ -51,6 +70,13 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
         }
     }
 
+    /**
+     * Allows two {@link AbstractBasicRegion} objects to be compared {@link Comparable #compareTo}
+     * @param other The {@link AbstractBasicRegion} to compareTo
+     * @return 1  if this {@link AbstractBasicRegion} contains more contours than other,
+     *         -1 if other contains more contours than this, and
+     *         the comparison of the interal contour sets otherwise.
+     */
     public int compareTo(AbstractBasicRegion other) {
         if (other.m_in_set.size() < m_in_set.size()) {
             return 1;
@@ -107,14 +133,33 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
         }
         return b.toString();
     }
+
+    /**
+     * An Iterator over the {@link AbstractCurve} objects contained in this {@link AbstractBasicRegion}.
+     *
+     * @return The iterator.
+     */
     public Iterator<AbstractCurve> getContourIterator() {
         return m_in_set.iterator();
     }
 
+    /**
+     * Returns the number of contours within which this {@link AbstractBasicRegion} is contained.
+     *
+     * @return the size of the internal store of {@link AbstractCurve} objects
+     */
     public int getNumContours() {
         return m_in_set.size();
     }
 
+    /**
+     * A "straddled contour" is a contour which distinguishes two AbstractBasicRegion 
+     * objects.  Effectively, it is the difference between two contour sets, if
+     * and only if the difference is a single contour.
+     *
+     * @param other The AbstractBasicRegion to compare to.
+     * @return The straddled contour or null.
+     */
     public AbstractCurve getStraddledContour(AbstractBasicRegion other) {
         int nc = getNumContours();
         int othernc = other.getNumContours();
@@ -143,6 +188,17 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
         }
     }
 
+    /**
+     * Moves an AbstractBasicRegion inside a given AbstractCurve.  It is the
+     * of {@link #moveOutside}.
+     *
+     * It's worth noting that this method does not modify the object that it
+     * is called on.
+     *
+     * @param newCont The curve to move an AbstractBasicRegion inside.
+     * @return a new AbstractBasicRegion inside all the AbstractCurve objects
+     *         that this is inside and also inside the passed AbstractCurve.
+     */
     public AbstractBasicRegion moved_in(AbstractCurve newCont) {
         TreeSet<AbstractCurve> conts = new TreeSet<AbstractCurve>(m_in_set);
         conts.add(newCont);
@@ -163,6 +219,17 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
         return result;
     }
 
+    /**
+     * Compares the label equivalence of two AbstractBasicRegion objects.  The
+     * label equivalence ensures that the labels in this AbstractBasicRegion are
+     * exactly those which are contained in the passed in AbstractBasicRegion.
+     *
+     * This is necessarily O(n^2) + the complexity to access the internal data
+     * structure, where n is the number of AbsractCurve objects in the region.
+     *
+     * @param z The AbstractBasicRegion to compare label equivalence.
+     * @return True if the regions are label equivalent, false otherwise.
+     */
     public boolean isLabelEquivalent(AbstractBasicRegion z) {
         if (getNumContours() == z.getNumContours()) {
             if (z.getNumContours() == 0) {
