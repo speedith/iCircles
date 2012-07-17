@@ -13,6 +13,7 @@ Build, test, run and package iCricles.
     <property name="build" location="build/classes"/>
     <property name="dist"  location="build"/>
     <property name="lib"   location="lib"/>
+    <property name="api.docs" location="docs/api"/>
 
     <path id="classpath.test">
       <fileset dir="${lib}">
@@ -39,6 +40,7 @@ Build, test, run and package iCricles.
         <tstamp/>
         <!-- Create the build directory structure used by compile -->
         <mkdir dir="${build}"/>
+	<mkdir dir="${api.docs}"/>
     </target>
 
     <target name="compile" depends="init"
@@ -70,9 +72,24 @@ Build, test, run and package iCricles.
 	<formatter type="plain"/>
 	<test name="icircles.abstractDescription.TestCurveLabel" />
 	<test name="icircles.abstractDescription.TestAbstractCurve" />
-    <test name="icircles.abstractDescription.TestAbstractBasicRegion" />
-    <test name="icircles.abstractDescription.TestAbstractDescription" />
+	<test name="icircles.abstractDescription.TestAbstractBasicRegion" />
+	<test name="icircles.abstractDescription.TestAbstractDescription" />
       </junit>
+    </target>
+
+    <target name="doc" depends="compile" >
+       <javadoc packagenames="icircles.*"
+           sourcepath="src"
+           excludepackagenames="icircles.test.*"
+           defaultexcludes="yes"
+           destdir="${api.docs}"
+           author="true"
+           version="true"
+           use="true"
+           windowtitle="Test API">
+	 <doctitle><![CDATA[<h1>iCircles API</h1>]]></doctitle>
+	 <bottom><![CDATA[<i>Copyright &#169; 2012 iCircles authors. All Rights Reserved.</i>]]></bottom>
+       </javadoc>
     </target>
 
     <target name="dist" depends="compile, test"
@@ -89,5 +106,6 @@ Build, test, run and package iCricles.
         <!-- Delete the ${build} and ${dist} directory trees -->
         <delete dir="${build}"/>
         <delete dir="${dist}"/>
+        <delete dir="${api.docs}"/>
     </target>
 </project>
