@@ -31,8 +31,15 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
         return result;
     }
 
-    /*
+    /**
+     * Given an @AbstractBasicRegion inside an @AbstractCurve it returns
+     * a copy of an @AbstractBasicRegion where the passed @AbstractCurve is 
+     * removed.
+     *
      * Does not modify the object on which this method is called.
+     *
+     * @param c An @AbstractCurve which this @AbstractBasicRegion is inside
+     * @return an @AbstractBasicRegion which has been moved outside c
      */
     public AbstractBasicRegion moveOutside(AbstractCurve c) {
         if (m_in_set.contains(c)) {
