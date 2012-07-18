@@ -33,7 +33,6 @@ Build, test, run and package iCricles.
 	<!-- Pull in JCheck -->
 	<include name="jcheck-0.1.jar"/>
       </fileset>
-      <pathelement location="${classpath}" />
       <pathelement location="${build}" />
       <path refid="classpath.build" />
     </path>
