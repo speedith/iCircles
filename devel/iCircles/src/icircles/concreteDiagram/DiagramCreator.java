@@ -414,7 +414,7 @@ public class DiagramCreator {
             Iterator<AbstractBasicRegion> zIt = last_diag.getZoneIterator();
             while (zIt.hasNext()) {
                 AbstractBasicRegion abr = zIt.next();
-                if (abr.is_in(ac)) {
+                if (abr.isIn(ac)) {
                     cScore += zoneScores.get(abr);
                 }
             }
@@ -590,11 +590,11 @@ public class DiagramCreator {
                     Set<AbstractBasicRegion> allZones = zoneScores.keySet();
                     for (AbstractBasicRegion abr : allZones) {
                         DEB.out(1, "compare " + abr.debug() + " against " + piercingCurve.debug());
-                        if (!abr.is_in(piercingCurve)) {
+                        if (!abr.isIn(piercingCurve)) {
                             continue;
                         }
                         DEB.out(1, "OK " + abr.debug() + " is in " + piercingCurve.debug() + ", so compare against " + pierced_ac.debug());
-                        if (abr.is_in(pierced_ac)) {
+                        if (abr.isIn(pierced_ac)) {
                             score_in_c += zoneScores.get(abr).doubleValue();
                         } else {
                             score_out_of_c += zoneScores.get(abr).doubleValue();
@@ -773,11 +773,11 @@ public class DiagramCreator {
                     Set<AbstractBasicRegion> allZones = zoneScores.keySet();
                     for (AbstractBasicRegion abr : allZones) {
                         DEB.out(1, "compare " + abr.debug() + " against " + c.debug());
-                        if (!abr.is_in(rd.added_curve)) {
+                        if (!abr.isIn(rd.added_curve)) {
                             continue;
                         }
                         DEB.out(1, "OK " + abr.debug() + " is in " + c.debug() + ", so compare against " + cc.debug());
-                        if (abr.is_in(c)) {
+                        if (abr.isIn(c)) {
                             score_in_c += zoneScores.get(abr).doubleValue();
                         } else {
                             score_out_of_c += zoneScores.get(abr).doubleValue();
@@ -1240,8 +1240,8 @@ public class DiagramCreator {
                 CircleContour cc2 = map.get(ac2);
 
                 if (cc1 != null && cc2 != null) {
-                    boolean in1 = zone.is_in(ac1);
-                    boolean in2 = zone.is_in(ac2);
+                    boolean in1 = zone.isIn(ac1);
+                    boolean in2 = zone.isIn(ac2);
 
                     double step_c1_c2_x = cc2.cx - cc1.cx;
                     double step_c1_c2_y = cc2.cy - cc1.cy;

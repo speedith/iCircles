@@ -79,14 +79,14 @@ public class AbstractDescription {
 
     public AbstractDescription(Set<AbstractCurve> contours,
 			       Set<AbstractBasicRegion> zones) {
-		m_contours = new TreeSet<AbstractCurve>(contours);
-		m_zones = new TreeSet<AbstractBasicRegion>(zones);
-		m_shaded_zones = new TreeSet<AbstractBasicRegion>();
+	m_contours = new TreeSet<AbstractCurve>(contours);
+	m_zones = new TreeSet<AbstractBasicRegion>(zones);
+	m_shaded_zones = new TreeSet<AbstractBasicRegion>();
         m_spiders = new ArrayList<AbstractSpider>();
 	}
 
     //TODO
-    public boolean checks_ok()
+    public boolean checksOk()
     {
     	// do some validity checks
     	// is every contour in a zone? etc.
@@ -202,7 +202,7 @@ public class AbstractDescription {
     public String debugAsSentence() {
         HashMap<AbstractCurve, String> printable = new HashMap<AbstractCurve, String>();
         for (AbstractCurve c : m_contours) {
-            printable.put(c, print_contour(c));
+            printable.put(c, printContour(c));
         }
         StringBuilder b = new StringBuilder();
         boolean first = true;
@@ -225,17 +225,26 @@ public class AbstractDescription {
         return b.toString();
     }
 
-    public String print_contour(AbstractCurve c) {
-        if (one_of_multiple_instances(c)) {
+    public String printContour(AbstractCurve c) {
+        if (oneOfMultipleInstances(c)) {
             return c.debugWithId();
         } else {
             return c.debug();
         }
     }
 
-    boolean one_of_multiple_instances(AbstractCurve c) {
+    /**
+     * Is the passed in AbstractCurve a split contour in the diagram.
+     * Alternatively stated as, are there multiple curves with the same label
+     * in the diagram.
+     *
+     * @param c The AbstractCurve to test whether split or not.
+     * @return False if there is only one AbstractCurve of the same label as c 
+     *         in the diagram, true otherwise.
+     */
+    boolean oneOfMultipleInstances(AbstractCurve c) {
         for (AbstractCurve cc : m_contours) {
-            if (cc != c && cc.matches_label(c)) {
+            if (cc != c && cc.matchesLabel(c)) {
                 return true;
             }
         }
@@ -254,7 +263,7 @@ public class AbstractDescription {
             scaling += 0.07;
             scaling += 0.05;
             for (AbstractBasicRegion z : m_zones) {
-                if (z.is_in(c)) {
+                if (z.isIn(c)) {
                     result += z.checksum() * scaling;
                     scaling += 0.09;
                 }

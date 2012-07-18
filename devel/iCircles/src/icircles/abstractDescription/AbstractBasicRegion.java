@@ -213,7 +213,7 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
             Iterator<AbstractCurve> it = getContourIterator();
             while (it.hasNext()) {
                 AbstractCurve ac = it.next();
-                if (!other.is_in(ac)) {
+                if (!other.isIn(ac)) {
                     if (result != null) {
                         return null; // found two contours here absent from other
                     } else {
@@ -239,13 +239,13 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
      * @return a new AbstractBasicRegion inside all the AbstractCurve objects
      *         that this is inside and also inside the passed AbstractCurve.
      */
-    public AbstractBasicRegion moved_in(AbstractCurve newCont) {
+    public AbstractBasicRegion movedIn(AbstractCurve newCont) {
         TreeSet<AbstractCurve> conts = new TreeSet<AbstractCurve>(m_in_set);
         conts.add(newCont);
         return AbstractBasicRegion.get(conts);
     }
 
-    public boolean is_in(AbstractCurve c) {
+    public boolean isIn(AbstractCurve c) {
         return m_in_set.contains(c);
     }
 
@@ -285,7 +285,7 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
                     while (acIt2.hasNext()) {
                         AbstractCurve thatAC = acIt2.next();
                         //System.out.println(" compare abstract contours "+thisAC.debug()+" and "+thatAC.debug());
-                        if (thisAC.matches_label(thatAC)) {
+                        if (thisAC.matchesLabel(thatAC)) {
                             //System.out.println(" got match ");
                             continue AcItLoop;
                         }

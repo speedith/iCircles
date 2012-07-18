@@ -50,9 +50,12 @@ public class CurveLabel implements Comparable<CurveLabel> {
     // but beware to put the item into the WeakHashMap just after you've 
     // extracted it!
 
+    /*
+     * only ever called by test code
     public static void clearLibrary() {
         m_library.clear();
     }
+    */
 
     private CurveLabel(String label) {
         m_label = label;

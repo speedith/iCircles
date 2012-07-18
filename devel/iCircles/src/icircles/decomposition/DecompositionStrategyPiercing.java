@@ -50,7 +50,7 @@ public class DecompositionStrategyPiercing extends DecompositionStrategy {
         Iterator<AbstractBasicRegion> abrit = ad.getZoneIterator();
         while (abrit.hasNext()) {
             AbstractBasicRegion abr = abrit.next();
-            if (abr.is_in(ac)) {
+            if (abr.isIn(ac)) {
                 nz++;
             }
         }
@@ -68,7 +68,7 @@ public class DecompositionStrategyPiercing extends DecompositionStrategy {
         abrLoop:
         while (abrit.hasNext()) {
             AbstractBasicRegion abr = abrit.next();
-            if (abr.is_in(ac)) {
+            if (abr.isIn(ac)) {
                 zonesInContour.add(abr);
                 // look for a partner zone
                 Iterator<AbstractBasicRegion> abrit2 = ad.getZoneIterator();
@@ -107,7 +107,7 @@ public class DecompositionStrategyPiercing extends DecompositionStrategy {
             Iterator<AbstractCurve> acIt = smallestZone.getContourIterator();
             while (acIt.hasNext()) {
                 AbstractCurve ac2 = acIt.next();
-                if (!abr.is_in(ac2)) {
+                if (!abr.isIn(ac2)) {
                     return false;
                 }
             }
@@ -121,7 +121,7 @@ public class DecompositionStrategyPiercing extends DecompositionStrategy {
             Iterator<AbstractCurve> acIt = abr.getContourIterator();
             while (acIt.hasNext()) {
                 AbstractCurve ac2 = acIt.next();
-                if (!smallestZone.is_in(ac2)) {
+                if (!smallestZone.isIn(ac2)) {
                     addedContours.add(ac2);
                     if (addedContours.size() > power) {
                         return false;

@@ -39,7 +39,7 @@ public class DecompositionStep {
         }
         StringBuilder sb = new StringBuilder();
         sb.append("remove ");
-        sb.append(m_from.print_contour(m_removed));
+        sb.append(m_from.printContour(m_removed));
         if (DEB.level > 1) {
             sb.append("\n");
         }

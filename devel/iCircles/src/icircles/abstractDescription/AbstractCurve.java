@@ -10,7 +10,7 @@ import org.apache.log4j.Level;
  */
 public class AbstractCurve implements Comparable<AbstractCurve> {
 
-    static Logger logger = Logger.getLogger(CurveLabel.class.getName());
+    static Logger logger = Logger.getLogger(AbstractCurve.class.getName());
 
     static int id = 0;
     CurveLabel m_label;
@@ -60,7 +60,7 @@ public class AbstractCurve implements Comparable<AbstractCurve> {
         return new String();
     }
 
-    public boolean matches_label(AbstractCurve c) {
+    public boolean matchesLabel(AbstractCurve c) {
         return m_label == c.m_label;
     }
 

@@ -116,7 +116,7 @@ public class ConcreteDiagram {
      */
     public static ConcreteDiagram makeConcreteDiagram(AbstractDescription ad, int size) throws CannotDrawException {
         // TODO
-        if (!ad.checks_ok()) {
+        if (!ad.checksOk()) {
             // not drawable
             throw new CannotDrawException("badly formed diagram spec");
         }
