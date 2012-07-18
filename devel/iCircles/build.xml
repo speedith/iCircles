@@ -18,10 +18,10 @@ Build, test, run and package iCricles.
 
     <path id="classpath.test">
       <fileset dir="${lib}">
-    	<!-- Ensure ant has the JUnit taskdef -->
-        <include name="ant-junit.jar"/>
 	<!-- Pull in JUnit -->
 	<include name="junit4.jar"/>
+    	<!-- Ensure ant has the JUnit taskdef -->
+        <include name="ant-junit.jar"/>
 	<!-- Pull in JCheck -->
 	<include name="jcheck-0.1.jar"/>
       </fileset>
