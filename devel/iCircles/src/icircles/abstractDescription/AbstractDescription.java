@@ -45,11 +45,11 @@ import icircles.util.DEB;
  * <p>
  * An AbstractDiagram is consistent if
  * <ol>
- * <li>1. the contours in each of the AbstractBasicRegions match those
+ * <li>The contours in each of the AbstractBasicRegions match those
  * in m_contours.</li>
- * <li>2. every valid diagram includes the "outside" zone.</li>
- * <li>3. every shaded zone is also a zone.</li>
- * <li>4. every contour must have a zone inside it.</li>
+ * <li>Every valid diagram includes the "outside" zone.</li>
+ * <li>Every shaded zone is also a zone.</li>
+ * <li>Every contour must have a zone inside it.</li>
  * </ol>
  * </p>
  * Currently, there is no checking done to ensure that conditions 1--4 are
