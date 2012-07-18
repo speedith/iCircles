@@ -16,6 +16,14 @@ Build, test, run and package iCricles.
     <property name="api.docs" location="docs/api"/>
     <property name="debug.build" value="true"/>
 
+    <path id="classpath.build">
+      <fileset dir="${lib}">
+	<include name="log4j-1.2.17.jar" />
+	<include name="batik-all.jar" />
+      </fileset>
+      <pathelement location="${classpath}" />
+    </path>
+
     <path id="classpath.test">
       <fileset dir="${lib}">
 	<!-- Pull in JUnit -->
@@ -27,6 +35,7 @@ Build, test, run and package iCricles.
       </fileset>
       <pathelement location="${classpath}" />
       <pathelement location="${build}" />
+      <path refid="classpath.build" />
     </path>
 
     <!-- Many people will have JUnit on their system. However, this ensures
@@ -50,11 +59,11 @@ Build, test, run and package iCricles.
         <javac srcdir             = "${src}"
         	destdir           = "${build}"
         	debug             = "${debug.build}"
-        	classpath         = "${lib}/batik-all.jar"
         	includeantruntime = "false"
         	source="1.6"
         	target="1.6"
         	>
+	  	<classpath refid="classpath.build" />
 	</javac>
     </target>
 
