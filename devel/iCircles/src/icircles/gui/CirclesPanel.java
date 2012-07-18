@@ -300,12 +300,12 @@ public class CirclesPanel extends JPanel {
                             (int) (leg.to.getX() * scaleFactor),
                             (int) (leg.to.getY() * scaleFactor));
                 }
-                if (s.as.get_name() == null) {
+                if (s.as.getName() == null) {
                     continue;
                 }
                 // TODO a proper way to place labels - it can't be a method in ConcreteSpider,
                 // we need the context in the ConcreteDiagram
-                ((Graphics2D) g).drawString(s.as.get_name(),
+                ((Graphics2D) g).drawString(s.as.getName(),
                         (int) ((s.feet.get(0).getX() - 5) * trans.getScaleX()),
                         (int) ((s.feet.get(0).getY() + 18) * trans.getScaleY()));
             }

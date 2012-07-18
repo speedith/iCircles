@@ -1,4 +1,34 @@
 package icircles.abstractDescription;
+/*
+ * @author Jean Flower <jeanflower@rocketmail.com>
+ * Copyright (c) 2012
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are
+ * those of the authors and should not be interpreted as representing official
+ * policies, either expressed or implied, of the iCircles Project.
+ */
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,39 +43,45 @@ import icircles.util.DEB;
  * A diagram comprises a set of AbstractCurves (the contours).
  * A set of AbstractBasicRegions is given (zones which must be present.
  * <p>
- * An AbstractDiagram is consistent if 
- * <p>1. the contours in each of the AbstractBasicRegions match those
- * in m_contours. 
- * <p>2. every valid diagram includes the "outside" zone. 
- * <p>3. every shaded zone is also a zone
- * <p>4. every contour must have a zone inside it
- * TODO add a coherence check on these internal checks.
+ * An AbstractDiagram is consistent if
+ * <ol>
+ * <li>1. the contours in each of the AbstractBasicRegions match those
+ * in m_contours.</li>
+ * <li>2. every valid diagram includes the "outside" zone.</li>
+ * <li>3. every shaded zone is also a zone.</li>
+ * <li>4. every contour must have a zone inside it.</li>
+ * </ol>
+ * </p>
+ * Currently, there is no checking done to ensure that conditions 1--4 are
+ * adhered to.  As such, you can create invalid diagrams.
+ *
+ * TODO: add a coherence check on these internal checks.
  */
 public class AbstractDescription {
 
     TreeSet<AbstractCurve> m_contours;
     Set<AbstractBasicRegion> m_zones;
     Set<AbstractBasicRegion> m_shaded_zones;
-    
+
     ArrayList<AbstractSpider> m_spiders;
-    
-    public AbstractDescription(Set<AbstractCurve> contours, 
-    		                   Set<AbstractBasicRegion> zones,
-    		                   Set<AbstractBasicRegion> shaded_zones) {
+
+    public AbstractDescription(Set<AbstractCurve> contours,
+			       Set<AbstractBasicRegion> zones,
+			       Set<AbstractBasicRegion> shaded_zones) {
         m_contours = new TreeSet<AbstractCurve>(contours);
         m_zones = new TreeSet<AbstractBasicRegion>(zones);
-        m_shaded_zones = new TreeSet<AbstractBasicRegion>(shaded_zones);  
+        m_shaded_zones = new TreeSet<AbstractBasicRegion>(shaded_zones);
         m_spiders = new ArrayList<AbstractSpider>();
     }
 
-    public AbstractDescription(Set<AbstractCurve> contours, 
-            				   Set<AbstractBasicRegion> zones) {
+    public AbstractDescription(Set<AbstractCurve> contours,
+			       Set<AbstractBasicRegion> zones) {
 		m_contours = new TreeSet<AbstractCurve>(contours);
 		m_zones = new TreeSet<AbstractBasicRegion>(zones);
-		m_shaded_zones = new TreeSet<AbstractBasicRegion>();        
+		m_shaded_zones = new TreeSet<AbstractBasicRegion>();
         m_spiders = new ArrayList<AbstractSpider>();
 	}
-    
+
     //TODO
     public boolean checks_ok()
     {
@@ -53,12 +89,11 @@ public class AbstractDescription {
     	// is every contour in a zone? etc.
     	return true;
     }
-    
+
     public void addSpider(AbstractSpider s){
     	// TODO : check that feet are indeed AbstractBasicRegions of the diagram
     	m_spiders.add(s);
     }
-    
 
     public AbstractCurve getFirstContour() {
         if (m_contours.size() == 0) {
@@ -93,7 +128,7 @@ public class AbstractDescription {
     public TreeSet<AbstractBasicRegion> getCopyOfZones() {
         return new TreeSet<AbstractBasicRegion>(m_zones);
     }
-    
+
     public Iterator<AbstractSpider> getSpiderIterator() {
         return m_spiders.iterator();
     }
