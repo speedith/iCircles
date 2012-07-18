@@ -125,7 +125,8 @@ public class ConcreteDiagram {
         return cd;
     }
 
-    public static void main(String[] args) {
+/*
+ *     public static void main(String[] args) {
         //DEB.level = 3;
         AbstractDescription ad = AbstractDescription.makeForTesting("a ab b c",
                 true); // randomised shading
@@ -148,7 +149,8 @@ public class ConcreteDiagram {
         viewingFrame.pack();
         viewingFrame.setVisible(true);
     }
-
+*/
+    
     public ArrayList<ConcreteSpider> getSpiders() {
         return spiders;
     }

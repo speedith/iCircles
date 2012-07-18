@@ -3,7 +3,7 @@
 Feel free to change the project build.  When you do so, please drop aidan@phoric.eu
 a mail to pull from your branch.
 -->
-<project name="my-project" default="dist" basedir=".">
+<project name="iCircles" default="dist" basedir=".">
     <description>
 Build, test, run and package iCricles.
     </description>
@@ -13,13 +13,15 @@ Build, test, run and package iCricles.
     <property name="build" location="build/classes"/>
     <property name="dist"  location="build"/>
     <property name="lib"   location="lib"/>
+    <property name="api.docs" location="docs/api"/>
+    <property name="debug.build" value="true"/>
 
     <path id="classpath.test">
       <fileset dir="${lib}">
-    	<!-- Ensure ant has the JUnit taskdef -->
-        <include name="ant-junit.jar"/>
 	<!-- Pull in JUnit -->
 	<include name="junit4.jar"/>
+    	<!-- Ensure ant has the JUnit taskdef -->
+        <include name="ant-junit.jar"/>
 	<!-- Pull in JCheck -->
 	<include name="jcheck-0.1.jar"/>
       </fileset>
@@ -39,20 +41,31 @@ Build, test, run and package iCricles.
         <tstamp/>
         <!-- Create the build directory structure used by compile -->
         <mkdir dir="${build}"/>
+	<mkdir dir="${api.docs}"/>
     </target>
 
     <target name="compile" depends="init"
             description="compile the source" >
         <!-- Compile the java code from ${src} into ${build} -->
-        <javac srcdir="${src}" destdir="${build}" classpath="${lib}/batik-all.jar">
+        <javac srcdir             = "${src}"
+        	destdir           = "${build}"
+        	debug             = "${debug.build}"
+        	classpath         = "${lib}/batik-all.jar"
+        	includeantruntime = "false"
+        	source="1.6"
+        	target="1.6"
+        	>
 	</javac>
     </target>
 
     <target name="test" depends="compile"
 	    description="test the project" >
-        <javac srcdir="${test}" destdir="${build}">
-	  <classpath refid="classpath.test" />
-	</javac>
+      <javac srcdir            = "${test}"
+	     destdir           = "${build}"
+	     debug             = "${debug.build}"
+	     includeantruntime = "false">
+	<classpath refid="classpath.test" />
+      </javac>
     </target>
 
     <target name="run-test" depends="test"
@@ -63,7 +76,24 @@ Build, test, run and package iCricles.
 	<formatter type="plain"/>
 	<test name="icircles.abstractDescription.TestCurveLabel" />
 	<test name="icircles.abstractDescription.TestAbstractCurve" />
+	<test name="icircles.abstractDescription.TestAbstractBasicRegion" />
+	<test name="icircles.abstractDescription.TestAbstractDescription" />
       </junit>
+    </target>
+
+    <target name="doc" depends="compile" >
+       <javadoc packagenames="icircles.*"
+           sourcepath="src"
+           excludepackagenames="icircles.test.*"
+           defaultexcludes="yes"
+           destdir="${api.docs}"
+           author="true"
+           version="true"
+           use="true"
+           windowtitle="iCircles API">
+	 <doctitle><![CDATA[<h1>iCircles API</h1>]]></doctitle>
+	 <bottom><![CDATA[<i>Copyright &#169; 2011--2012 iCircles authors. All Rights Reserved.</i>]]></bottom>
+       </javadoc>
     </target>
 
     <target name="dist" depends="compile, test"
@@ -72,7 +102,7 @@ Build, test, run and package iCricles.
         <mkdir dir="${dist}/lib"/>
 
         <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-        <jar jarfile="${dist}/lib/iCircles-${DSTAMP}.jar" basedir="${build}"/>
+        <jar jarfile="${dist}/lib/iCircles.jar" basedir="${build}"/>
     </target>
 
     <target name="clean"
@@ -80,5 +110,6 @@ Build, test, run and package iCricles.
         <!-- Delete the ${build} and ${dist} directory trees -->
         <delete dir="${build}"/>
         <delete dir="${dist}"/>
+        <delete dir="${api.docs}"/>
     </target>
 </project>
