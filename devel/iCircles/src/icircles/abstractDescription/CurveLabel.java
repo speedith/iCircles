@@ -84,7 +84,7 @@ public class CurveLabel implements Comparable<CurveLabel> {
     public String debug() {
 	// This is an abuse of log4j, however it's a stop-gap reformulation of
 	// the previous code.  FIXME: Do logging correctly
-	Level l = logger.getLevel();
+	Level l = logger.getEffectiveLevel();
 
 	if(Level.DEBUG == l) {
 	    return m_label;

@@ -138,7 +138,7 @@ public class AbstractDescription {
 
     public String debug() {
 
-	final int l = logger.getLevel().toInt();
+	final int l = logger.getEffectiveLevel().toInt();
 
         StringBuilder b = new StringBuilder();
         b.append("labels:");

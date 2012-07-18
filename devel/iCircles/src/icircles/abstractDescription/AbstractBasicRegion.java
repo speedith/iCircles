@@ -133,9 +133,8 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
     }
 
     public String debug() {
-	// log4j abuse
-
-	final int l = logger.getLevel().toInt();
+        // log4j abuse
+        final int l = logger.getEffectiveLevel().toInt();
 
         StringBuilder b = new StringBuilder();
         if (l >= Level.DEBUG.toInt()) {
@@ -156,16 +155,16 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
             b.append(hashCode());
         }
 
-	if (l >= Level.DEBUG.toInt()) {
-	    return b.toString();
-	}
+        if (l >= Level.DEBUG.toInt()) {
+            return b.toString();
+        }
 
-	// Level.ALL
-	return new String();
+        // Level.ALL
+        return new String();
     }
     public String toString() {
-    	if(m_in_set.isEmpty())
-    		return ".";
+        if(m_in_set.isEmpty())
+            return ".";
 
         StringBuilder b = new StringBuilder();
         for (AbstractCurve c : m_in_set) {
@@ -222,7 +221,7 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
                 }
             }
 
-	    logger.debug("straddle : " + debug() + "->" + other.debug() + "=" + result.debug());
+            logger.debug("straddle : " + debug() + "->" + other.debug() + "=" + result.debug());
 
             return result;
         }

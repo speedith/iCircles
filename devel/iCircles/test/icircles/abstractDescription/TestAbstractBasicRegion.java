@@ -96,7 +96,7 @@ public class TestAbstractBasicRegion {
     @Test
     @Configuration(tests=100, size=20) //limit the AbstractCurve[] to be lower than 20 elements 
     @Generator(klass=AbstractCurve.class, generator=CustomAbstractCurveGen.class)
-    public void testMoveOutsideMoved_In(AbstractCurve[] acs) {
+    public void testMoveOutsideMovedIn(AbstractCurve[] acs) {
         if(0 == acs.length) {
 	    assertTrue(true);
 	    return;
@@ -111,7 +111,7 @@ public class TestAbstractBasicRegion {
         AbstractBasicRegion abr1 = AbstractBasicRegion.get(in_set);
 
         AbstractCurve first = in_set.first();
-	assertEquals(abr1, abr1.moveOutside(first).moved_in(first));
+	assertEquals(abr1, abr1.moveOutside(first).movedIn(first));
     }
 
     @Test

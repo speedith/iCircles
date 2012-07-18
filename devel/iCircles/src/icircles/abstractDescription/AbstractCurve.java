@@ -53,7 +53,7 @@ public class AbstractCurve implements Comparable<AbstractCurve> {
 	sb.append("_" + m_id + ")@");
 	sb.append(hashCode());
 
-	if(logger.getLevel() == Level.DEBUG)
+	if(logger.getEffectiveLevel() == Level.DEBUG)
 	    return sb.toString();
 
 	// Level.ALL
