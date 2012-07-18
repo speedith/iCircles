@@ -3,7 +3,7 @@
 Feel free to change the project build.  When you do so, please drop aidan@phoric.eu
 a mail to pull from your branch.
 -->
-<project name="my-project" default="dist" basedir=".">
+<project name="iCircles" default="dist" basedir=".">
     <description>
 Build, test, run and package iCricles.
     </description>
