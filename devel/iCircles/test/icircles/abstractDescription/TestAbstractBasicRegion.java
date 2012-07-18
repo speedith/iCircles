@@ -86,7 +86,7 @@ public class TestAbstractBasicRegion {
 	AbstractCurve first = in_set.first();
 	abr2 = abr2.moveOutside(first);
 
-	assertFalse("abr1: " + abr1.journalString() + "\nabr2: " + abr2.journalString() , abr1.equals(abr2));
+	assertFalse("abr1: " + abr1.toString() + "\nabr2: " + abr2.toString() , abr1.equals(abr2));
     }
 
     /**

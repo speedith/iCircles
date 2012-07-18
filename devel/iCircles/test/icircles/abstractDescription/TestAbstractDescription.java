@@ -368,18 +368,18 @@ public class TestAbstractDescription {
     	StringBuilder b = new StringBuilder();
     	for(AbstractBasicRegion zone : m_zones){
     		if(!zone.m_in_set.isEmpty()){ // don't journal out "." for empty zone - it's assumed
-    		    b.append(zone.journalString());
+    		    b.append(zone.toString());
     		    b.append(" ");
     		}
     	}
     	b.append(", ");
     	for(AbstractBasicRegion zone : m_shaded_zones){
-    		b.append(zone.journalString());
+    		b.append(zone.toString());
     		b.append(" ");
     	}
     	for(AbstractSpider s : m_spiders){
     		b.append(", ");
-    		b.append(s.journalString());
+    		b.append(s.toString());
     	}
     	return b.toString();
     }

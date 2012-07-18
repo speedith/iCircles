@@ -36,7 +36,8 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
-import icircles.util.DEB;
+import org.apache.log4j.Logger;
+import org.apache.log4j.Level;
 
 /**
  * An AbstractDescription encapsulates the elements of a diagram, with no drawn information.
@@ -58,6 +59,8 @@ import icircles.util.DEB;
  * TODO: add a coherence check on these internal checks.
  */
 public class AbstractDescription {
+
+    static Logger logger = Logger.getLogger(AbstractDescription.class.getName());
 
     TreeSet<AbstractCurve> m_contours;
     Set<AbstractBasicRegion> m_zones;
@@ -134,13 +137,13 @@ public class AbstractDescription {
     }
 
     public String debug() {
-        if (DEB.level == 0) {
-            return "";
-        }
+
+	final int l = logger.getLevel().toInt();
+
         StringBuilder b = new StringBuilder();
         b.append("labels:");
         boolean first = true;
-        if (DEB.level > 1) {
+        if (l >= Level.DEBUG.toInt()) {
             b.append("{");
         }
         for (AbstractCurve c : m_contours) {
@@ -150,12 +153,12 @@ public class AbstractDescription {
             b.append(c.debug());
             first = false;
         }
-        if (DEB.level > 1) {
+        if (l >= Level.DEBUG.toInt()) {
             b.append("}");
         }
         b.append("\n");
         b.append("zones:");
-        if (DEB.level > 1) {
+        if (l >= Level.DEBUG.toInt()) {
             b.append("{");
         }
         first = true;
@@ -163,13 +166,13 @@ public class AbstractDescription {
             if (!first) {
                 b.append(",");
             }
-            if (DEB.level > 1) {
+            if (l >= Level.DEBUG.toInt()) {
                 b.append("\n");
             }
             b.append(z.debug());
             first = false;
         }
-        if (DEB.level > 1) {
+        if (l >= Level.DEBUG.toInt()) {
             b.append("}");
         }
         b.append(" shading:");
@@ -178,18 +181,22 @@ public class AbstractDescription {
             if (!first) {
                 b.append(",");
             }
-            if (DEB.level > 1) {
+            if (l >= Level.DEBUG.toInt()) {
                 b.append("\n");
             }
             b.append(z.debug());
             first = false;
         }
-        if (DEB.level > 1) {
+        if (l >= Level.DEBUG.toInt()) {
             b.append("}");
         }
         b.append("\n");
 
-        return b.toString();
+	if(l >= Level.DEBUG.toInt())
+	    return b.toString();
+
+	// Level.ALL
+	return new String();
     }
 
     public String debugAsSentence() {
@@ -273,7 +280,7 @@ public class AbstractDescription {
         }
         return null;
     }
-    
+
     public boolean hasShadedZone(AbstractBasicRegion z){
     	return m_shaded_zones.contains(z);
     }
