@@ -1,10 +1,12 @@
 package icircles.concreteDiagram;
 
-import icircles.util.DEB;
-
 import java.awt.geom.Ellipse2D;
 
+import org.apache.log4j.Logger;
+
 public class ConcreteSpiderFoot {
+
+    static Logger logger = Logger.getLogger(ConcreteSpiderFoot.class.getName());
 
     public static final double FOOT_RADIUS = 4;
     private double x;
@@ -35,10 +37,8 @@ public class ConcreteSpiderFoot {
 
     // TODO: Maybe you should use 'hashCode' instead of 'checksum'?
     public double checksum() {
-        if (DEB.level >= 2) {
-            System.out.println("build checksum for foot from coords (" + getX() 
-            		       + ", " + getY() + ")\n");
-        }
+        logger.debug("build checksum for foot from coords (" + getX() 
+                     + ", " + getY() + ")\n");
         return getX() + 1.02 * getY();
     }
 
