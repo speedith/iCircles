@@ -138,12 +138,12 @@ public class AbstractDescription {
 
     public String debug() {
 
-	final int l = logger.getEffectiveLevel().toInt();
+	final Level l = logger.getEffectiveLevel();
 
         StringBuilder b = new StringBuilder();
         b.append("labels:");
         boolean first = true;
-        if (l >= Level.DEBUG.toInt()) {
+        if (l.isGreaterOrEqual(Level.DEBUG)) {
             b.append("{");
         }
         for (AbstractCurve c : m_contours) {
@@ -153,12 +153,12 @@ public class AbstractDescription {
             b.append(c.debug());
             first = false;
         }
-        if (l >= Level.DEBUG.toInt()) {
+        if (l.isGreaterOrEqual(Level.DEBUG)) {
             b.append("}");
         }
         b.append("\n");
         b.append("zones:");
-        if (l >= Level.DEBUG.toInt()) {
+        if (l.isGreaterOrEqual(Level.DEBUG)) {
             b.append("{");
         }
         first = true;
@@ -166,13 +166,13 @@ public class AbstractDescription {
             if (!first) {
                 b.append(",");
             }
-            if (l >= Level.DEBUG.toInt()) {
+            if (l.isGreaterOrEqual(Level.DEBUG)) {
                 b.append("\n");
             }
             b.append(z.debug());
             first = false;
         }
-        if (l >= Level.DEBUG.toInt()) {
+        if (l.isGreaterOrEqual(Level.DEBUG)) {
             b.append("}");
         }
         b.append(" shading:");
@@ -181,22 +181,22 @@ public class AbstractDescription {
             if (!first) {
                 b.append(",");
             }
-            if (l >= Level.DEBUG.toInt()) {
+            if (l.isGreaterOrEqual(Level.DEBUG)) {
                 b.append("\n");
             }
             b.append(z.debug());
             first = false;
         }
-        if (l >= Level.DEBUG.toInt()) {
+        if (l.isGreaterOrEqual(Level.DEBUG)) {
             b.append("}");
         }
         b.append("\n");
 
-	if(l >= Level.DEBUG.toInt())
-	    return b.toString();
+        if(l.isGreaterOrEqual(Level.DEBUG))
+            return b.toString();
 
-	// Level.ALL
-	return new String();
+        // Level.ALL
+        return new String();
     }
 
     public String debugAsSentence() {
