@@ -322,12 +322,12 @@ public class CirclesPanelEx extends JPanel {
                         g2d.setColor(oldColor2);
                     }
                 }
-                if (s.as.get_name() == null) {
+                if (s.as.getName() == null) {
                     continue;
                 }
                 // TODO a proper way to place labels - it can't be a method in ConcreteSpider,
                 // we need the context in the ConcreteDiagram
-                g2d.drawString(s.as.get_name(),
+                g2d.drawString(s.as.getName(),
                         (int) ((s.feet.get(0).getX()) * trans.getScaleX()) - 5,
                         (int) ((s.feet.get(0).getY()) * trans.getScaleY()) - 10);
 
