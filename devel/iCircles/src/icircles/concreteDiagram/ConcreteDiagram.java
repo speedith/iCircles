@@ -38,7 +38,6 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Iterator;
-import javax.swing.JFrame;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.Level;
