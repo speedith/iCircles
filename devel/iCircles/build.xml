@@ -74,6 +74,7 @@ Build, test, run and package iCricles.
              includeantruntime = "false">
         <classpath refid="classpath.test" />
       </javac>
+      <copy file="log4j.properties" todir="${build}" />
     </target>
 
     <target name="run-test" depends="test"
