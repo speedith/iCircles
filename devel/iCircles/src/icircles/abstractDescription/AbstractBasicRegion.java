@@ -134,28 +134,28 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
 
     public String debug() {
         // log4j abuse
-        final int l = logger.getEffectiveLevel().toInt();
+        final Level l = logger.getEffectiveLevel();
 
         StringBuilder b = new StringBuilder();
-        if (l >= Level.DEBUG.toInt()) {
+        if (l.isGreaterOrEqual(Level.DEBUG)) {
             b.append("(");
         }
         boolean first = true;
         for (AbstractCurve c : m_in_set) {
-            if (!first && l >= Level.DEBUG.toInt()) {
+            if (!first && l.isGreaterOrEqual(Level.DEBUG)) {
                 b.append(",");
             }
             b.append(c.debug());
             first = false;
         }
-        if (l >= Level.DEBUG.toInt()) {
+        if (l.isGreaterOrEqual(Level.DEBUG)) {
             b.append(")");
         }
-        if (l >= Level.TRACE.toInt()) {
+        if (l.isGreaterOrEqual(Level.TRACE)) {
             b.append(hashCode());
         }
 
-        if (l >= Level.DEBUG.toInt()) {
+        if (l.isGreaterOrEqual(Level.DEBUG)) {
             return b.toString();
         }
 

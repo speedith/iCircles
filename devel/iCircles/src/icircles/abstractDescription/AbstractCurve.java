@@ -74,7 +74,7 @@ public class AbstractCurve implements Comparable<AbstractCurve> {
         return m_label.checksum() /* * m_id */;
     }
 
-    /** 
+    /**
      * Only ever used by test code
     public static void reset_id_counter() {
         id = 0;
@@ -84,7 +84,7 @@ public class AbstractCurve implements Comparable<AbstractCurve> {
     */
 
     public String toString() {
-	return m_label.getLabel();
+        return m_label.getLabel();
     }
 
 }
