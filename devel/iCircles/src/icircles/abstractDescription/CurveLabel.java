@@ -86,11 +86,11 @@ public class CurveLabel implements Comparable<CurveLabel> {
 	// the previous code.  FIXME: Do logging correctly
 	Level l = logger.getEffectiveLevel();
 
-	if(Level.DEBUG == l) {
+	if(Level.DEBUG.equals(l)) {
 	    return m_label;
 	}
 
-	if(Level.TRACE == l) {
+	if(Level.TRACE.equals(l)) {
 	    return new String(m_label + "@"+ hashCode());
 	}
 
