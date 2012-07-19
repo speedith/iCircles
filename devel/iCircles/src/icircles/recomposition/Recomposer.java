@@ -107,12 +107,12 @@ public class Recomposer {
                 ArrayList<AbstractBasicRegion> cluster_zones = cluster.zones();
                 for (AbstractBasicRegion z : cluster_zones) {
                     split_zones.add(z);
-                    AbstractBasicRegion new_zone = z.moved_in(new_cont);
+                    AbstractBasicRegion new_zone = z.movedIn(new_cont);
                     new_zone_set.add(new_zone);
                     added_zones.add(new_zone);
                     AbstractBasicRegion decomp_z = matched_inverse.get(z);
                     //System.out.println("zone "+z.debug()+" has matched inverse "+decomp_z.debug());
-                    matched_zones.put(decomp_z.moved_in(was_removed), new_zone);
+                    matched_zones.put(decomp_z.movedIn(was_removed), new_zone);
                 }
                 added_contour_data.add(new RecompData(new_cont, split_zones, added_zones));
             }

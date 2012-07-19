@@ -27,7 +27,7 @@ public class DecompositionStrategyInnermost extends DecompositionStrategy {
             Iterator<AbstractBasicRegion> z_it = ad.getZoneIterator();
             while (z_it.hasNext()) {
                 AbstractBasicRegion z = z_it.next();
-                if (z.is_in(c)) {
+                if (z.isIn(c)) {
                     num_zones++;
                 }
             }

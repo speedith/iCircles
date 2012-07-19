@@ -34,7 +34,8 @@ import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.Set;
 
-import icircles.util.DEB;
+import org.apache.log4j.Logger;
+import org.apache.log4j.Level;
 
 /**
  * {@link AbstractBasicRegion} maintains a collection of {@link AbstractBasicRegion} objects.
@@ -53,6 +54,8 @@ import icircles.util.DEB;
  * </pre>
  */
 public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
+
+    static Logger logger = Logger.getLogger(AbstractBasicRegion.class.getName());
 
     TreeSet<AbstractCurve> m_in_set;
     static TreeSet<AbstractBasicRegion> m_library = new TreeSet<AbstractBasicRegion>();
@@ -130,36 +133,42 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
     }
 
     public String debug() {
-        if (DEB.level == 0) {
-            return "";
-        }
+        // log4j abuse
+        final Level l = logger.getEffectiveLevel();
+
         StringBuilder b = new StringBuilder();
-        if (DEB.level > 1) {
+        if (l.isGreaterOrEqual(Level.DEBUG)) {
             b.append("(");
         }
         boolean first = true;
         for (AbstractCurve c : m_in_set) {
-            if (!first && DEB.level > 1) {
+            if (!first && l.isGreaterOrEqual(Level.DEBUG)) {
                 b.append(",");
             }
             b.append(c.debug());
             first = false;
         }
-        if (DEB.level > 1) {
+        if (l.isGreaterOrEqual(Level.DEBUG)) {
             b.append(")");
         }
-        if (DEB.level > 3) {
+        if (l.isGreaterOrEqual(Level.TRACE)) {
             b.append(hashCode());
         }
-        return b.toString();
+
+        if (l.isGreaterOrEqual(Level.DEBUG)) {
+            return b.toString();
+        }
+
+        // Level.ALL
+        return new String();
     }
-    public String journalString() {
-    	if(m_in_set.isEmpty())
-    		return ".";
-    	
+    public String toString() {
+        if(m_in_set.isEmpty())
+            return ".";
+
         StringBuilder b = new StringBuilder();
         for (AbstractCurve c : m_in_set) {
-            b.append(c.journalString());
+            b.append(c.toString());
         }
         return b.toString();
     }
@@ -203,7 +212,7 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
             Iterator<AbstractCurve> it = getContourIterator();
             while (it.hasNext()) {
                 AbstractCurve ac = it.next();
-                if (!other.is_in(ac)) {
+                if (!other.isIn(ac)) {
                     if (result != null) {
                         return null; // found two contours here absent from other
                     } else {
@@ -211,9 +220,9 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
                     }
                 }
             }
-            if (DEB.level > 2) {
-                System.out.println("straddle : " + debug() + "->" + other.debug() + "=" + result.debug());
-            }
+
+            logger.debug("straddle : " + debug() + "->" + other.debug() + "=" + result.debug());
+
             return result;
         }
     }
@@ -229,13 +238,13 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
      * @return a new AbstractBasicRegion inside all the AbstractCurve objects
      *         that this is inside and also inside the passed AbstractCurve.
      */
-    public AbstractBasicRegion moved_in(AbstractCurve newCont) {
+    public AbstractBasicRegion movedIn(AbstractCurve newCont) {
         TreeSet<AbstractCurve> conts = new TreeSet<AbstractCurve>(m_in_set);
         conts.add(newCont);
         return AbstractBasicRegion.get(conts);
     }
 
-    public boolean is_in(AbstractCurve c) {
+    public boolean isIn(AbstractCurve c) {
         return m_in_set.contains(c);
     }
 
@@ -275,7 +284,7 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
                     while (acIt2.hasNext()) {
                         AbstractCurve thatAC = acIt2.next();
                         //System.out.println(" compare abstract contours "+thisAC.debug()+" and "+thatAC.debug());
-                        if (thisAC.matches_label(thatAC)) {
+                        if (thisAC.matchesLabel(thatAC)) {
                             //System.out.println(" got match ");
                             continue AcItLoop;
                         }

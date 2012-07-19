@@ -33,12 +33,15 @@ package icircles.abstractDescription;
 import java.util.Set;
 import java.util.TreeSet;
 
-import icircles.util.DEB;
+import org.apache.log4j.Logger;
+import org.apache.log4j.Level;
 
 /**
  * Stores a label that can be applied to an {@link AbsractCurve}.
  */
 public class CurveLabel implements Comparable<CurveLabel> {
+
+    static Logger logger = Logger.getLogger(CurveLabel.class.getName());
 
     private String m_label;
     private static Set<CurveLabel> m_library = new TreeSet<CurveLabel>();
@@ -47,9 +50,12 @@ public class CurveLabel implements Comparable<CurveLabel> {
     // but beware to put the item into the WeakHashMap just after you've 
     // extracted it!
 
+    /*
+     * only ever called by test code
     public static void clearLibrary() {
         m_library.clear();
     }
+    */
 
     private CurveLabel(String label) {
         m_label = label;
@@ -76,17 +82,20 @@ public class CurveLabel implements Comparable<CurveLabel> {
     }
 
     public String debug() {
-        if (DEB.level == 0) {
-            return "";
-        } else //if(Debug.level == 1)
-        {
-            return m_label;
-        }
-//		else
-//		{
-//			return m_label + "@"+ hashCode();
-//		}
+	// This is an abuse of log4j, however it's a stop-gap reformulation of
+	// the previous code.  FIXME: Do logging correctly
+	Level l = logger.getEffectiveLevel();
 
+	if(Level.DEBUG == l) {
+	    return m_label;
+	}
+
+	if(Level.TRACE == l) {
+	    return new String(m_label + "@"+ hashCode());
+	}
+
+	// Level.ALL
+	return new String();
     }
 
     public int compareTo(CurveLabel other) {

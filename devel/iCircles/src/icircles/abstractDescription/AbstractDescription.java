@@ -36,7 +36,8 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
-import icircles.util.DEB;
+import org.apache.log4j.Logger;
+import org.apache.log4j.Level;
 
 /**
  * An AbstractDescription encapsulates the elements of a diagram, with no drawn information.
@@ -59,6 +60,8 @@ import icircles.util.DEB;
  */
 public class AbstractDescription {
 
+    static Logger logger = Logger.getLogger(AbstractDescription.class.getName());
+
     TreeSet<AbstractCurve> m_contours;
     Set<AbstractBasicRegion> m_zones;
     Set<AbstractBasicRegion> m_shaded_zones;
@@ -76,14 +79,14 @@ public class AbstractDescription {
 
     public AbstractDescription(Set<AbstractCurve> contours,
 			       Set<AbstractBasicRegion> zones) {
-		m_contours = new TreeSet<AbstractCurve>(contours);
-		m_zones = new TreeSet<AbstractBasicRegion>(zones);
-		m_shaded_zones = new TreeSet<AbstractBasicRegion>();
+	m_contours = new TreeSet<AbstractCurve>(contours);
+	m_zones = new TreeSet<AbstractBasicRegion>(zones);
+	m_shaded_zones = new TreeSet<AbstractBasicRegion>();
         m_spiders = new ArrayList<AbstractSpider>();
 	}
 
     //TODO
-    public boolean checks_ok()
+    public boolean checksOk()
     {
     	// do some validity checks
     	// is every contour in a zone? etc.
@@ -134,13 +137,13 @@ public class AbstractDescription {
     }
 
     public String debug() {
-        if (DEB.level == 0) {
-            return "";
-        }
+
+	final Level l = logger.getEffectiveLevel();
+
         StringBuilder b = new StringBuilder();
         b.append("labels:");
         boolean first = true;
-        if (DEB.level > 1) {
+        if (l.isGreaterOrEqual(Level.DEBUG)) {
             b.append("{");
         }
         for (AbstractCurve c : m_contours) {
@@ -150,12 +153,12 @@ public class AbstractDescription {
             b.append(c.debug());
             first = false;
         }
-        if (DEB.level > 1) {
+        if (l.isGreaterOrEqual(Level.DEBUG)) {
             b.append("}");
         }
         b.append("\n");
         b.append("zones:");
-        if (DEB.level > 1) {
+        if (l.isGreaterOrEqual(Level.DEBUG)) {
             b.append("{");
         }
         first = true;
@@ -163,13 +166,13 @@ public class AbstractDescription {
             if (!first) {
                 b.append(",");
             }
-            if (DEB.level > 1) {
+            if (l.isGreaterOrEqual(Level.DEBUG)) {
                 b.append("\n");
             }
             b.append(z.debug());
             first = false;
         }
-        if (DEB.level > 1) {
+        if (l.isGreaterOrEqual(Level.DEBUG)) {
             b.append("}");
         }
         b.append(" shading:");
@@ -178,24 +181,28 @@ public class AbstractDescription {
             if (!first) {
                 b.append(",");
             }
-            if (DEB.level > 1) {
+            if (l.isGreaterOrEqual(Level.DEBUG)) {
                 b.append("\n");
             }
             b.append(z.debug());
             first = false;
         }
-        if (DEB.level > 1) {
+        if (l.isGreaterOrEqual(Level.DEBUG)) {
             b.append("}");
         }
         b.append("\n");
 
-        return b.toString();
+        if(l.isGreaterOrEqual(Level.DEBUG))
+            return b.toString();
+
+        // Level.ALL
+        return new String();
     }
 
     public String debugAsSentence() {
         HashMap<AbstractCurve, String> printable = new HashMap<AbstractCurve, String>();
         for (AbstractCurve c : m_contours) {
-            printable.put(c, print_contour(c));
+            printable.put(c, printContour(c));
         }
         StringBuilder b = new StringBuilder();
         boolean first = true;
@@ -218,17 +225,26 @@ public class AbstractDescription {
         return b.toString();
     }
 
-    public String print_contour(AbstractCurve c) {
-        if (one_of_multiple_instances(c)) {
+    public String printContour(AbstractCurve c) {
+        if (oneOfMultipleInstances(c)) {
             return c.debugWithId();
         } else {
             return c.debug();
         }
     }
 
-    boolean one_of_multiple_instances(AbstractCurve c) {
+    /**
+     * Is the passed in AbstractCurve a split contour in the diagram.
+     * Alternatively stated as, are there multiple curves with the same label
+     * in the diagram.
+     *
+     * @param c The AbstractCurve to test whether split or not.
+     * @return False if there is only one AbstractCurve of the same label as c 
+     *         in the diagram, true otherwise.
+     */
+    boolean oneOfMultipleInstances(AbstractCurve c) {
         for (AbstractCurve cc : m_contours) {
-            if (cc != c && cc.matches_label(c)) {
+            if (cc != c && cc.matchesLabel(c)) {
                 return true;
             }
         }
@@ -247,7 +263,7 @@ public class AbstractDescription {
             scaling += 0.07;
             scaling += 0.05;
             for (AbstractBasicRegion z : m_zones) {
-                if (z.is_in(c)) {
+                if (z.isIn(c)) {
                     result += z.checksum() * scaling;
                     scaling += 0.09;
                 }
@@ -273,7 +289,7 @@ public class AbstractDescription {
         }
         return null;
     }
-    
+
     public boolean hasShadedZone(AbstractBasicRegion z){
     	return m_shaded_zones.contains(z);
     }
