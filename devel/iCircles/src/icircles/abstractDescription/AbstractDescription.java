@@ -272,9 +272,9 @@ public class AbstractDescription {
         return result;
     }
 
-    public boolean includesLabel(CurveLabel l) {
+    public boolean includesLabel(String l) {
         for (AbstractCurve c : m_contours) {
-            if (c.getLabel() == l) {
+            if (c.getLabel().equals(l)) {
                 return true;
             }
         }

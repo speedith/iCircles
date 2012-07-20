@@ -83,7 +83,6 @@ Build, test, run and package iCricles.
         <classpath refid="classpath.test" />
 
         <formatter type="plain"/>
-        <test name="icircles.abstractDescription.TestCurveLabel" />
         <test name="icircles.abstractDescription.TestAbstractCurve" />
         <test name="icircles.abstractDescription.TestAbstractBasicRegion" />
         <test name="icircles.abstractDescription.TestAbstractDescription" />

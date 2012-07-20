@@ -34,7 +34,6 @@ package icircles.recomposition;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import icircles.abstractDescription.CurveLabel;
 import icircles.abstractDescription.AbstractDescription;
 
 import org.apache.log4j.Logger;
@@ -55,9 +54,9 @@ public class RecompositionStep {
         m_to = to;
         m_added_contour_data = added_contour_data;
         assert (added_contour_data.size() > 0 ): "no added curve in recomp";
-        CurveLabel cl = added_contour_data.get(0).added_curve.getLabel();
+        String cl = added_contour_data.get(0).added_curve.getLabel();
         for (RecompData rp : added_contour_data) {
-            assert (rp.added_curve.getLabel() == cl) : "mixed curves added in recomp";
+            assert (rp.added_curve.getLabel().equals(cl)) : "mixed curves added in recomp";
         }
 
         assert (!from.includesLabel(cl)) : "added curve already present";

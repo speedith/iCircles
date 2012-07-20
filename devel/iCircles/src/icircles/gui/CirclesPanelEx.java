@@ -280,7 +280,7 @@ public class CirclesPanelEx extends JPanel {
                  * jl.getWidth(); jl.getHeight(); jl.setLocation(arg0, arg1);
                  */
 
-                g2d.drawString(cc.ac.getLabel().getLabel(),
+                g2d.drawString(cc.ac.getLabel(),
                         (int) (cc.getLabelXPosition() * trans.getScaleX()) + 5,
                         (int) (cc.getLabelYPosition() * trans.getScaleY()) + 5);
             }
