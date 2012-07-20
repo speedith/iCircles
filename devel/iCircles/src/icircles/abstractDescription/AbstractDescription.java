@@ -36,6 +36,9 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.Level;
 
@@ -62,8 +65,11 @@ public class AbstractDescription {
 
     static Logger logger = Logger.getLogger(AbstractDescription.class.getName());
 
+    @JsonProperty(value="ContourSet")
     TreeSet<AbstractCurve> m_contours;
+    @JsonProperty(value="ZoneSet")
     Set<AbstractBasicRegion> m_zones;
+    @JsonProperty(value="ShadedZoneSet")
     Set<AbstractBasicRegion> m_shaded_zones;
 
     ArrayList<AbstractSpider> m_spiders;
@@ -98,6 +104,7 @@ public class AbstractDescription {
     	m_spiders.add(s);
     }
 
+    @JsonIgnore
     public AbstractCurve getFirstContour() {
         if (m_contours.size() == 0) {
             return null;
@@ -105,6 +112,7 @@ public class AbstractDescription {
         return m_contours.first();
     }
 
+    @JsonIgnore
     public AbstractCurve getLastContour() {
         if (m_contours.size() == 0) {
             return null;
@@ -112,26 +120,34 @@ public class AbstractDescription {
         return m_contours.last();
     }
 
+    @JsonIgnore
     public Iterator<AbstractCurve> getContourIterator() {
         return m_contours.iterator();
     }
 
+    @JsonIgnore
     public int getNumContours() {
         return m_contours.size();
     }
 
+    @JsonIgnore
     public Iterator<AbstractBasicRegion> getZoneIterator() {
         return m_zones.iterator();
     }
+
     // expensive - do not use just for querying
+    @JsonIgnore
     public TreeSet<AbstractCurve> getCopyOfContours() {
         return new TreeSet<AbstractCurve>(m_contours);
     }
+
     // expensive - do not use just for querying
+    @JsonIgnore
     public TreeSet<AbstractBasicRegion> getCopyOfZones() {
         return new TreeSet<AbstractBasicRegion>(m_zones);
     }
 
+    @JsonIgnore
     public Iterator<AbstractSpider> getSpiderIterator() {
         return m_spiders.iterator();
     }
@@ -251,6 +267,7 @@ public class AbstractDescription {
         return false;
     }
 
+    @JsonIgnore
     public int getNumZones() {
         return m_zones.size();
     }
