@@ -34,9 +34,12 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Ellipse2D.Double;
 import java.util.ArrayList;
 
+import java.io.StringWriter;
+
 import javax.swing.JPanel;
 
 import org.apache.batik.svggen.SVGGraphics2D;
+import org.apache.batik.svggen.SVGGraphics2DIOException;
 import org.apache.batik.dom.GenericDOMImplementation;
 
 import org.w3c.dom.Document;
@@ -48,6 +51,17 @@ import org.w3c.dom.DOMImplementation;
  * @author Matej Urbas [matej.urbas@gmail.com]
  */
 public class CirclesPanelEx extends JPanel {
+
+    // Get a DOMImplementation.
+    private DOMImplementation domImpl =
+        GenericDOMImplementation.getDOMImplementation();
+
+    // Create an instance of org.w3c.dom.Document.
+    private String svgNS = "http://www.w3.org/2000/svg";
+    private Document document = domImpl.createDocument(svgNS, "svg", null);
+
+    // Create an instance of the SVG Generator.
+    private SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
 
     // <editor-fold defaultstate="collapsed" desc="Private Fields">
     /**
@@ -511,17 +525,24 @@ public class CirclesPanelEx extends JPanel {
     }
     // </editor-fold>
 
+    @Override
     protected Graphics getComponentGraphics(Graphics g) {
-	// Get a DOMImplementation.
-        DOMImplementation domImpl =
-            GenericDOMImplementation.getDOMImplementation();
-
-	// Create an instance of org.w3c.dom.Document.
-        String svgNS = "http://www.w3.org/2000/svg";
-        Document document = domImpl.createDocument(svgNS, "svg", null);
-
-        // Create an instance of the SVG Generator.
-        SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
 	return svgGenerator;
+    }
+
+    @Override
+    public String toString() {
+        // We've got to force the Component to paint
+        // particularly when we're calling toString from a non GUI app
+        paint(svgGenerator);
+
+        StringWriter  w = new StringWriter();
+
+        try {
+            svgGenerator.stream(w);
+        } catch (SVGGraphics2DIOException sg2ie) {
+            return new String("<!-- SVG Generation Failed -->");
+        }
+        return w.toString();
     }
 }
