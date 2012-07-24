@@ -57,8 +57,8 @@ public class TestAbstractDescription {
     public void testADSystemTests()
     {
 
-	CurveLabel a = CurveLabel.get("a");
-	CurveLabel a2 = CurveLabel.get("a");
+	String a  = new String("a");
+	String a2 = new String("a");
 
 	/*
 	 * Debug.level = 2;
@@ -116,7 +116,7 @@ public class TestAbstractDescription {
 	    assertThat(za, is(not(za2)));
 	}
 
-	CurveLabel b = CurveLabel.get("b");
+	String b = new String("b");
 	AbstractCurve cb = new AbstractCurve(b);
 	ts.add(cb);
 	AbstractBasicRegion zab = AbstractBasicRegion.get(ts);

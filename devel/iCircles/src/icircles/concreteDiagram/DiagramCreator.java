@@ -573,7 +573,7 @@ public class DiagramCreator {
                         for (int i = 0; i < cs.size(); i++) {
                             CircleContour c = cs.get(i);
                             ac = step.recomp_data.get(i).added_curve;
-                            assert (c.ac.getLabel() == ac.getLabel()); // "mismatched labels");
+                            assert (c.ac.getLabel().equals(ac.getLabel())); // "mismatched labels");
                             map.put(ac, c);
                             addCircle(c);
                         }
@@ -1019,7 +1019,7 @@ public class DiagramCreator {
         new Color(100, 0, 100)};
 
     private void set_colour(CircleContour cc) {
-        String s = cc.ac.getLabel().getLabel();
+        String s = cc.ac.getLabel();
         if (s == null || s.length() < 1) {
             return;
         }

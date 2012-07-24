@@ -20,6 +20,7 @@ Build, test, run and package iCricles.
       <fileset dir="${lib}">
         <include name="log4j-1.2.17.jar" />
         <include name="batik-all.jar" />
+        <include name="jackson-annotations-2.0.4.jar" />
       </fileset>
       <pathelement location="${classpath}" />
     </path>
@@ -83,7 +84,6 @@ Build, test, run and package iCricles.
         <classpath refid="classpath.test" />
 
         <formatter type="plain"/>
-        <test name="icircles.abstractDescription.TestCurveLabel" />
         <test name="icircles.abstractDescription.TestAbstractCurve" />
         <test name="icircles.abstractDescription.TestAbstractBasicRegion" />
         <test name="icircles.abstractDescription.TestAbstractDescription" />

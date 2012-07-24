@@ -13,16 +13,16 @@ public class AbstractCurve implements Comparable<AbstractCurve> {
     static Logger logger = Logger.getLogger(AbstractCurve.class.getName());
 
     static int id = 0;
-    CurveLabel m_label;
+    String m_label;
     int m_id;
 
-    public AbstractCurve(CurveLabel label) {
+    public AbstractCurve(String label) {
         id++;
         m_id = id;
         m_label = label;
     }
 
-    public CurveLabel getLabel() {
+    public String getLabel() {
         return m_label;
     }
 
@@ -49,7 +49,7 @@ public class AbstractCurve implements Comparable<AbstractCurve> {
 
         StringBuilder sb = new StringBuilder();
 	sb.append("contour(");
-        sb.append(m_label.debug());
+        sb.append(m_label);
 	sb.append("_" + m_id + ")@");
 	sb.append(hashCode());
 
@@ -69,9 +69,9 @@ public class AbstractCurve implements Comparable<AbstractCurve> {
     }
 
     public double checksum() {
-	logger.debug("build checksum from " + m_label.getLabel()
-		     + " (and not " + m_id + ")\ngiving "+m_label.checksum());
-        return m_label.checksum() /* * m_id */;
+	logger.debug("build checksum from " + m_label
+		     + " (and not " + m_id + ")\ngiving "+m_label.hashCode());
+        return m_label.hashCode() /* * m_id */;
     }
 
     /**
@@ -84,7 +84,7 @@ public class AbstractCurve implements Comparable<AbstractCurve> {
     */
 
     public String toString() {
-        return m_label.getLabel();
+        return m_label;
     }
 
 }

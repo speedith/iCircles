@@ -34,6 +34,9 @@ import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.Level;
 
@@ -57,6 +60,7 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
 
     static Logger logger = Logger.getLogger(AbstractBasicRegion.class.getName());
 
+    @JsonProperty(value="inSet")
     TreeSet<AbstractCurve> m_in_set;
     static TreeSet<AbstractBasicRegion> m_library = new TreeSet<AbstractBasicRegion>();
 
@@ -178,6 +182,7 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
      *
      * @return The iterator.
      */
+    @JsonIgnore
     public Iterator<AbstractCurve> getContourIterator() {
         return m_in_set.iterator();
     }
@@ -187,6 +192,7 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
      *
      * @return the size of the internal store of {@link AbstractCurve} objects
      */
+    @JsonIgnore
     public int getNumContours() {
         return m_in_set.size();
     }

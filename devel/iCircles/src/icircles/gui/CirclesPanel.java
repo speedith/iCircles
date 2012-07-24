@@ -282,7 +282,7 @@ public class CirclesPanel extends JPanel {
                 jl.setLocation(arg0, arg1);
                  */
 
-                ((Graphics2D) g).drawString(cc.ac.getLabel().getLabel(),
+                ((Graphics2D) g).drawString(cc.ac.getLabel(),
                         (int) (cc.getLabelXPosition() * trans.getScaleX()),
                         (int) (cc.getLabelYPosition() * trans.getScaleY()));
             }
