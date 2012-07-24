@@ -1,6 +1,7 @@
 package icircles.abstractDescription;
 
-import icircles.util.DEB;
+import org.apache.log4j.Logger;
+import org.apache.log4j.Level;
 
 /**
  * This class allows multiple different circles to have the same label.
@@ -9,17 +10,19 @@ import icircles.util.DEB;
  */
 public class AbstractCurve implements Comparable<AbstractCurve> {
 
+    static Logger logger = Logger.getLogger(AbstractCurve.class.getName());
+
     static int id = 0;
-    CurveLabel m_label;
+    String m_label;
     int m_id;
 
-    public AbstractCurve(CurveLabel label) {
+    public AbstractCurve(String label) {
         id++;
         m_id = id;
         m_label = label;
     }
 
-    public CurveLabel getLabel() {
+    public String getLabel() {
         return m_label;
     }
 
@@ -42,26 +45,22 @@ public class AbstractCurve implements Comparable<AbstractCurve> {
     }
 
     public String debug() {
-        if (DEB.level == 0) {
-            return "";
-        }
+	// Abuse of log4j
+
         StringBuilder sb = new StringBuilder();
-        boolean deb_level_was_high = false;
-        if (DEB.level > 4) {
-            sb.append("contour(");
-            deb_level_was_high = true;
-            DEB.level--;
-        }
-        sb.append(m_label.debug());
-        if (deb_level_was_high) {
-            DEB.level++;
-            sb.append("_" + m_id + ")@");
-            sb.append(hashCode());
-        }
-        return sb.toString();
+	sb.append("contour(");
+        sb.append(m_label);
+	sb.append("_" + m_id + ")@");
+	sb.append(hashCode());
+
+	if(logger.getEffectiveLevel() == Level.DEBUG)
+	    return sb.toString();
+
+	// Level.ALL
+        return new String();
     }
 
-    public boolean matches_label(AbstractCurve c) {
+    public boolean matchesLabel(AbstractCurve c) {
         return m_label == c.m_label;
     }
 
@@ -70,14 +69,12 @@ public class AbstractCurve implements Comparable<AbstractCurve> {
     }
 
     public double checksum() {
-        if (DEB.level >= 2) {
-            System.out.println("build checksum from " + m_label.getLabel()
-            		       + " (and not " + m_id + ")\ngiving "+m_label.checksum());
-        }
-        return m_label.checksum() /* * m_id */;
+	logger.debug("build checksum from " + m_label
+		     + " (and not " + m_id + ")\ngiving "+m_label.hashCode());
+        return m_label.hashCode() /* * m_id */;
     }
 
-    /** 
+    /**
      * Only ever used by test code
     public static void reset_id_counter() {
         id = 0;
@@ -86,7 +83,8 @@ public class AbstractCurve implements Comparable<AbstractCurve> {
     }
     */
 
-    public String journalString() {
-	return m_label.getLabel();
+    public String toString() {
+        return m_label;
     }
+
 }

@@ -1,6 +1,6 @@
 package icircles.test;
 
-import icircles.gui.CirclesPanel;
+import icircles.gui.CirclesPanelEx;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -290,18 +290,18 @@ public class TestCode {
             description = "" + test_num + ".description..";
         }
        
-        CirclesPanel cp;
+        CirclesPanelEx cp;
         if(cd != null)
         	{
-        	cp = new CirclesPanel(description, failureMessage, cd,
-                true);// do use colours
+		    cp = new CirclesPanelEx(cd);//description, failureMessage, cd,
+		    //                true);// do use colours
         	}
         else
 	    	{
-	    	cp = new CirclesPanel(description, failureMessage, size);
+		    cp = new CirclesPanelEx(cd); //, failureMessage, size);
 	    	}
         	
-        cp.setScaleFactor(TestData.scale);
+	//        cp.setScaleFactor(TestData.scale);
         return cp;
     }
 //	static Rectangle getBoundingBox(ConstructedConcreteDiagram ccd)
@@ -351,19 +351,20 @@ public class TestCode {
         // to test journalling...
         if(TestData.test_journalling){
         	//System.out.println("desc was "+desc);
-            AbstractDescription ad = AbstractDescription.makeForTesting(desc);
+//            AbstractDescription ad = AbstractDescription.makeForTesting(desc);
             //System.out.println("ad is "+ad.debug());
-            desc = ad.makeForTesting();
+//            desc = ad.makeForTesting();
         	//System.out.println("desc is "+desc);
         	
         } 
     		
 	//        AbstractCurve.reset_id_counter();
         
-        AbstractDescription ad = AbstractDescription.makeForTesting(desc, TestData.RANDOM_SHADING);
-        DiagramCreator dc = new DiagramCreator(ad);
-        ConcreteDiagram cd = dc.createDiagram(size);
-        return cd;
+        //AbstractDescription ad = AbstractDescription.makeForTesting(desc, TestData.RANDOM_SHADING);
+        //DiagramCreator dc = new DiagramCreator(ad);
+        //ConcreteDiagram cd = dc.createDiagram(size);
+        //return cd;
+        return null;
     }
     
     private static void printFreshTestData(int test_num, double checksum_found) {
