@@ -1,5 +1,7 @@
 package icircles.abstractDescription;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.Level;
 
@@ -13,8 +15,15 @@ public class AbstractCurve implements Comparable<AbstractCurve> {
     static Logger logger = Logger.getLogger(AbstractCurve.class.getName());
 
     static int id = 0;
+    @JsonProperty(value="label")
     String m_label;
     int m_id;
+
+    /**
+     * Default constructor is needed for Jackson Databinding.
+     */
+    public AbstractCurve() {
+    }
 
     public AbstractCurve(String label) {
         id++;
