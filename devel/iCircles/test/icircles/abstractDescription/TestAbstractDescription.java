@@ -57,8 +57,8 @@ public class TestAbstractDescription {
     public void testADSystemTests()
     {
 
-	CurveLabel a = CurveLabel.get("a");
-	CurveLabel a2 = CurveLabel.get("a");
+	String a  = new String("a");
+	String a2 = new String("a");
 
 	/*
 	 * Debug.level = 2;
@@ -116,7 +116,7 @@ public class TestAbstractDescription {
 	    assertThat(za, is(not(za2)));
 	}
 
-	CurveLabel b = CurveLabel.get("b");
+	String b = new String("b");
 	AbstractCurve cb = new AbstractCurve(b);
 	ts.add(cb);
 	AbstractBasicRegion zab = AbstractBasicRegion.get(ts);
@@ -368,18 +368,18 @@ public class TestAbstractDescription {
     	StringBuilder b = new StringBuilder();
     	for(AbstractBasicRegion zone : m_zones){
     		if(!zone.m_in_set.isEmpty()){ // don't journal out "." for empty zone - it's assumed
-    		    b.append(zone.journalString());
+    		    b.append(zone.toString());
     		    b.append(" ");
     		}
     	}
     	b.append(", ");
     	for(AbstractBasicRegion zone : m_shaded_zones){
-    		b.append(zone.journalString());
+    		b.append(zone.toString());
     		b.append(" ");
     	}
     	for(AbstractSpider s : m_spiders){
     		b.append(", ");
-    		b.append(s.journalString());
+    		b.append(s.toString());
     	}
     	return b.toString();
     }
