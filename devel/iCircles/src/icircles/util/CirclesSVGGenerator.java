@@ -23,6 +23,8 @@ import icircles.concreteDiagram.*;
 
 public class CirclesSVGGenerator {
 
+    static enum zOrder {SHADING, CONTOUR, LABEL};
+
     static Logger logger = Logger.getLogger(CirclesSVGGenerator.class.getName());
 
     private ConcreteDiagram diagram;
@@ -64,6 +66,16 @@ public class CirclesSVGGenerator {
         svgRoot.setAttributeNS(null, "width", Integer.toString(diagram.getSize()));
         svgRoot.setAttributeNS(null, "height", Integer.toString(diagram.getSize()));
 
+        // Draw the shaded zones
+        for(ConcreteZone z : diagram.getShadedZones()) {
+            Element path = document.createElementNS(svgNS, "path");
+            path.setAttributeNS(null, "d", toSVGPath(z.getShape(diagram.getBox())));
+            path.setAttributeNS(null, "fill", "#cccccc"); // grey
+            path.setAttributeNS(null, "z-index", Integer.toString(zOrder.SHADING.ordinal()));
+
+            svgRoot.appendChild(path);
+        }
+
         // TODO: Concrete* should return themselves as DocumentFragments
         for(CircleContour c : diagram.getCircles()) {
             // Draw the circle
@@ -71,6 +83,7 @@ public class CirclesSVGGenerator {
             circle.setAttributeNS(null, "cx", Double.toString(c.get_cx()));
             circle.setAttributeNS(null, "cy", Double.toString(c.get_cy()));
             circle.setAttributeNS(null, "r", Double.toString(c.get_radius()));
+            circle.setAttributeNS(null, "z-index", Integer.toString(zOrder.CONTOUR.ordinal()));
             // Not pretty, but it works.
             Color strokeColor = c.color();
             circle.setAttributeNS(null, "stroke",
@@ -93,17 +106,11 @@ public class CirclesSVGGenerator {
                                   ? "black"
                                   : "#" +  toHexString(c.color())
                                   );
+            text.setAttributeNS(null, "z-index", Integer.toString(zOrder.LABEL.ordinal()));
 
             Text textNode =  document.createTextNode(c.ac.getLabel());
             text.appendChild(textNode);
             svgRoot.appendChild(text);
-        }
-
-        for(ConcreteZone z : diagram.getShadedZones()) {
-            Element path = document.createElementNS(svgNS, "path");
-            path.setAttributeNS(null, "d", toSVGPath(z.getShape(diagram.getBox())));
-            path.setAttributeNS(null, "fill", "#cccccc"); // grey
-            svgRoot.appendChild(path);
         }
 
         return document;

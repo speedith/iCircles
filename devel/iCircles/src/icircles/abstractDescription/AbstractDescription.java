@@ -74,6 +74,14 @@ public class AbstractDescription {
 
     ArrayList<AbstractSpider> m_spiders;
 
+    /** 
+     * Default constructor is needed for Jackson Databinding.
+     */
+    public AbstractDescription() {
+    	// we don't expose spiders in the JSON yet.
+    	m_spiders = new ArrayList<AbstractSpider>();
+    }
+
     public AbstractDescription(Set<AbstractCurve> contours,
 			       Set<AbstractBasicRegion> zones,
 			       Set<AbstractBasicRegion> shaded_zones) {

@@ -114,8 +114,19 @@ Build, test, run and package iCricles.
         <!-- Create the distribution directory -->
         <mkdir dir="${dist}/lib"/>
 
+        <!-- Use the release version of the log4j properties -->
+        <copy file="log4j.release.properties" tofile="${build}/log4j.properties" overwrite="true" />
+
         <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-        <jar jarfile="${dist}/lib/iCircles.jar" basedir="${build}"/>
+        <jar jarfile="${dist}/lib/iCircles.jar" basedir="${build}">
+	  <manifest>
+	    <attribute name="Main-Class"
+                       value="icircles.gui.CommandLineUI"/>
+          </manifest>
+          <!-- This is horrible, but it's either that or force users to create a
+               a classpath, or ship a wrapper script -->
+          <zipgroupfileset dir="${lib}" />
+        </jar>
     </target>
 
     <target name="clean"

@@ -64,6 +64,12 @@ public class AbstractBasicRegion implements Comparable<AbstractBasicRegion> {
     TreeSet<AbstractCurve> m_in_set;
     static TreeSet<AbstractBasicRegion> m_library = new TreeSet<AbstractBasicRegion>();
 
+    /**
+     * Default constructor is needed for Jackson Databinding.
+     */
+    public AbstractBasicRegion() {
+    }
+
     private AbstractBasicRegion(TreeSet<AbstractCurve> in_set) {
         m_in_set = in_set;
     }

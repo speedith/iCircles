@@ -66,15 +66,19 @@ public class CommandLineUI {
             .hasArg()
             .isRequired()
             .withDescription(  "A file containing an Abstract Description in JSON format" )
-            .create( "abstract-description" );
+            .create( "abstractdescription" );
 
         Option aSize = OptionBuilder.withArgName( "size" )
             .hasArg()
             .withDescription(  "The size, in pixels, of the canvas (default 200)" )
             .create( "size" );
 
+        Option help = new Option ("help", "Prints this help message");
+
         options = new Options();
         options.addOption(aDescription);
+        options.addOption(aSize);
+        options.addOption(help);
 
         // Parse the command line
         CommandLineParser parser = new GnuParser();
@@ -89,14 +93,18 @@ public class CommandLineUI {
             return false;
         }
 
-        // Ensure we have an abstract-description
-        if( line.hasOption( "abstract-description" ) ) {
-            String jsonFile = line.getOptionValue( "abstract-description" );
+        if(line.hasOption("help")) {
+            return false;
+        }
+
+        // Ensure we have an abstractdescription
+        if( line.hasOption( "abstractdescription" ) ) {
+            String jsonFile = line.getOptionValue( "abstractdescription" );
 
             // Pull in the AbstractDescription from JSON file
             ObjectMapper mapper = new ObjectMapper();
             try {
-            this.abstractDescription = mapper.readValue(new File("jsonFile"), AbstractDescription.class);
+                this.abstractDescription = mapper.readValue(new File(jsonFile), AbstractDescription.class);
             } catch (IOException ioe) {
                 ioe.printStackTrace();
                 return false;
@@ -106,9 +114,14 @@ public class CommandLineUI {
         }
 
         if( line.hasOption( "size" ) ) {
-            String size = line.getOptionValue( "abstract-description" );
-            // TODO: check exceptions
-            this.canvasSize = Integer.parseInt(size);
+            String size = line.getOptionValue( "size" );
+            // TODO: check exceptions properly
+            try {
+                this.canvasSize = Integer.parseInt(size);
+            } catch (NumberFormatException nfe) {
+                nfe.printStackTrace();
+                return false;
+            }
         } else {
             this.canvasSize = 200;
         }
