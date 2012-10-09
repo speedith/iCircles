@@ -16,24 +16,37 @@ Build, test, run and package iCricles.
     <property name="api.docs" location="docs/api"/>
     <property name="debug.build" value="true"/>
 
-    <path id="classpath.test">
+    <path id="classpath.build">
       <fileset dir="${lib}">
-	<!-- Pull in JUnit -->
-	<include name="junit4.jar"/>
-    	<!-- Ensure ant has the JUnit taskdef -->
-        <include name="ant-junit.jar"/>
-	<!-- Pull in JCheck -->
-	<include name="jcheck-0.1.jar"/>
+        <include name="log4j-1.2.17.jar" />
+        <include name="batik-all.jar" />
+        <include name="xml-apis-ext.jar" />
+        <include name="commons-cli-1.2.jar" />
+        <include name="jackson-core-2.0.4.jar" />
+        <include name="jackson-databind-2.0.4.jar" />
+        <include name="jackson-annotations-2.0.4.jar" />
       </fileset>
       <pathelement location="${classpath}" />
+    </path>
+
+    <path id="classpath.test">
+      <fileset dir="${lib}">
+        <!-- Pull in JUnit -->
+        <include name="junit4.jar"/>
+        <!-- Ensure ant has the JUnit taskdef -->
+        <include name="ant-junit.jar"/>
+        <!-- Pull in JCheck -->
+        <include name="jcheck-0.1.jar"/>
+      </fileset>
       <pathelement location="${build}" />
+      <path refid="classpath.build" />
     </path>
 
     <!-- Many people will have JUnit on their system. However, this ensures
-	 that iCircles builds on a system with minimal dependancies.
+         that iCircles builds on a system with minimal dependancies.
     -->
     <taskdef name="junit"
-	     classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask">
+             classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask">
     </taskdef>
 
     <target name="init">
@@ -41,43 +54,43 @@ Build, test, run and package iCricles.
         <tstamp/>
         <!-- Create the build directory structure used by compile -->
         <mkdir dir="${build}"/>
-	<mkdir dir="${api.docs}"/>
+        <mkdir dir="${api.docs}"/>
     </target>
 
     <target name="compile" depends="init"
             description="compile the source" >
         <!-- Compile the java code from ${src} into ${build} -->
         <javac srcdir             = "${src}"
-        	destdir           = "${build}"
-        	debug             = "${debug.build}"
-        	classpath         = "${lib}/batik-all.jar"
-        	includeantruntime = "false"
-        	source="1.6"
-        	target="1.6"
-        	>
-	</javac>
+                destdir           = "${build}"
+                debug             = "${debug.build}"
+                includeantruntime = "false"
+                source="1.6"
+                target="1.6"
+                >
+                <classpath refid="classpath.build" />
+        </javac>
     </target>
 
     <target name="test" depends="compile"
-	    description="test the project" >
+            description="test the project" >
       <javac srcdir            = "${test}"
-	     destdir           = "${build}"
-	     debug             = "${debug.build}"
-	     includeantruntime = "false">
-	<classpath refid="classpath.test" />
+             destdir           = "${build}"
+             debug             = "${debug.build}"
+             includeantruntime = "false">
+        <classpath refid="classpath.test" />
       </javac>
+      <copy file="log4j.properties" todir="${build}" />
     </target>
 
     <target name="run-test" depends="test"
-	    description="run the project tests" >
+            description="run the project tests" >
       <junit printsummary="yes" fork="yes" haltonfailure="yes">
-	<classpath refid="classpath.test" />
+        <classpath refid="classpath.test" />
 
-	<formatter type="plain"/>
-	<test name="icircles.abstractDescription.TestCurveLabel" />
-	<test name="icircles.abstractDescription.TestAbstractCurve" />
-	<test name="icircles.abstractDescription.TestAbstractBasicRegion" />
-	<test name="icircles.abstractDescription.TestAbstractDescription" />
+        <formatter type="plain"/>
+        <test name="icircles.abstractDescription.TestAbstractCurve" />
+        <test name="icircles.abstractDescription.TestAbstractBasicRegion" />
+        <test name="icircles.abstractDescription.TestAbstractDescription" />
       </junit>
     </target>
 
@@ -91,8 +104,8 @@ Build, test, run and package iCricles.
            version="true"
            use="true"
            windowtitle="iCircles API">
-	 <doctitle><![CDATA[<h1>iCircles API</h1>]]></doctitle>
-	 <bottom><![CDATA[<i>Copyright &#169; 2011--2012 iCircles authors. All Rights Reserved.</i>]]></bottom>
+         <doctitle><![CDATA[<h1>iCircles API</h1>]]></doctitle>
+         <bottom><![CDATA[<i>Copyright &#169; 2011--2012 iCircles authors. All Rights Reserved.</i>]]></bottom>
        </javadoc>
     </target>
 
@@ -101,8 +114,19 @@ Build, test, run and package iCricles.
         <!-- Create the distribution directory -->
         <mkdir dir="${dist}/lib"/>
 
+        <!-- Use the release version of the log4j properties -->
+        <copy file="log4j.release.properties" tofile="${build}/log4j.properties" overwrite="true" />
+
         <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-        <jar jarfile="${dist}/lib/iCircles.jar" basedir="${build}"/>
+        <jar jarfile="${dist}/lib/iCircles.jar" basedir="${build}">
+	  <manifest>
+	    <attribute name="Main-Class"
+                       value="icircles.gui.CommandLineUI"/>
+          </manifest>
+          <!-- This is horrible, but it's either that or force users to create a
+               a classpath, or ship a wrapper script -->
+          <zipgroupfileset dir="${lib}" />
+        </jar>
     </target>
 
     <target name="clean"
