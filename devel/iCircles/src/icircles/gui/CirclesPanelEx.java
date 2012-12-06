@@ -525,10 +525,10 @@ public class CirclesPanelEx extends JPanel {
     }
     // </editor-fold>
 
-    @Override
-    protected Graphics getComponentGraphics(Graphics g) {
-	return svgGenerator;
-    }
+//    @Override
+//    protected Graphics getComponentGraphics(Graphics g) {
+//	return svgGenerator;
+//    }
 
     @Override
     public String toString() {
