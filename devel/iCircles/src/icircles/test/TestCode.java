@@ -351,19 +351,20 @@ public class TestCode {
         // to test journalling...
         if(TestData.test_journalling){
         	//System.out.println("desc was "+desc);
-            AbstractDescription ad = AbstractDescription.makeForTesting(desc);
+//            AbstractDescription ad = AbstractDescription.makeForTesting(desc);
             //System.out.println("ad is "+ad.debug());
-            desc = ad.makeForTesting();
+//            desc = ad.makeForTesting();
         	//System.out.println("desc is "+desc);
         	
         } 
     		
 	//        AbstractCurve.reset_id_counter();
         
-        AbstractDescription ad = AbstractDescription.makeForTesting(desc, TestData.RANDOM_SHADING);
-        DiagramCreator dc = new DiagramCreator(ad);
-        ConcreteDiagram cd = dc.createDiagram(size);
-        return cd;
+        //AbstractDescription ad = AbstractDescription.makeForTesting(desc, TestData.RANDOM_SHADING);
+        //DiagramCreator dc = new DiagramCreator(ad);
+        //ConcreteDiagram cd = dc.createDiagram(size);
+        //return cd;
+        return null;
     }
     
     private static void printFreshTestData(int test_num, double checksum_found) {

@@ -1,5 +1,3 @@
-package icircles.decomposition;
-
 /*
  * @author Jean Flower <jeanflower@rocketmail.com>
  * Copyright (c) 2012
@@ -31,42 +29,10 @@ package icircles.decomposition;
  * policies, either expressed or implied, of the iCircles Project.
  */
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import icircles.abstractDescription.AbstractDescription;
-import icircles.abstractDescription.AbstractCurve;
-import icircles.abstractDescription.AbstractBasicRegion;
-
-import org.apache.log4j.Logger;
-
-public class DecompositionStrategyInnermost extends DecompositionStrategy {
-
-    static Logger logger = Logger.getLogger(DecompositionStrategyInnermost.class.getName());
-
-    void getContoursToRemove(AbstractDescription ad, ArrayList<AbstractCurve> toRemove) {
-        toRemove.clear();
-        logger.debug("recomposition stratgey is innermost");
-
-        // an innermost abstract contour has the fewest abstract basic regions inside
-        int best_num_zones = ad.getNumZones() + 1;
-        AbstractCurve best_contour = null;
-        Iterator<AbstractCurve> c_it = ad.getContourIterator();
-        while (c_it.hasNext()) {
-            AbstractCurve c = c_it.next();
-            int num_zones = 0;
-            Iterator<AbstractBasicRegion> z_it = ad.getZoneIterator();
-            while (z_it.hasNext()) {
-                AbstractBasicRegion z = z_it.next();
-                if (z.isIn(c)) {
-                    num_zones++;
-                }
-            }
-            if (num_zones < best_num_zones) {
-                best_num_zones = num_zones;
-                best_contour = c;
-            }
-        }
-        toRemove.add(best_contour);
-    }
-}
+/**
+ * Contains an implementation of the notion of an abstract diagram.  Abstract
+ * diagrams describe the contours, regions and spiders that are contained in
+ * a diagram.  However, they have no layout information associated with the
+ * various contours.
+ */
+package icircles.abstractDescription;

@@ -18,7 +18,6 @@ public class CustomAbstractCurveGen implements Gen<AbstractCurve> {
     public AbstractCurve arbitrary(Random random, long size)
     {
 	StringGen  sg = new StringGen();
-	CurveLabel cl = CurveLabel.get(sg.arbitrary(random, size));
-	return (new AbstractCurve(cl));
+	return (new AbstractCurve(sg.arbitrary(random, size)));
     }
 }

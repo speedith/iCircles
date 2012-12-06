@@ -33,11 +33,17 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Ellipse2D.Double;
 import java.util.ArrayList;
+
+import java.io.StringWriter;
+
 import javax.swing.JPanel;
-import org.apache.batik.dom.GenericDOMImplementation;
+
 import org.apache.batik.svggen.SVGGraphics2D;
-import org.w3c.dom.DOMImplementation;
+import org.apache.batik.svggen.SVGGraphics2DIOException;
+import org.apache.batik.dom.GenericDOMImplementation;
+
 import org.w3c.dom.Document;
+import org.w3c.dom.DOMImplementation;
 
 /**
  * This panel takes a {@link ConcreteDiagram concrete diagram} and draws it.
@@ -45,6 +51,17 @@ import org.w3c.dom.Document;
  * @author Matej Urbas [matej.urbas@gmail.com]
  */
 public class CirclesPanelEx extends JPanel {
+
+    // Get a DOMImplementation.
+    private DOMImplementation domImpl =
+        GenericDOMImplementation.getDOMImplementation();
+
+    // Create an instance of org.w3c.dom.Document.
+    private String svgNS = "http://www.w3.org/2000/svg";
+    private Document document = domImpl.createDocument(svgNS, "svg", null);
+
+    // Create an instance of the SVG Generator.
+    private SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
 
     // <editor-fold defaultstate="collapsed" desc="Private Fields">
     /**
@@ -277,7 +294,7 @@ public class CirclesPanelEx extends JPanel {
                  * jl.getWidth(); jl.getHeight(); jl.setLocation(arg0, arg1);
                  */
 
-                g2d.drawString(cc.ac.getLabel().getLabel(),
+                g2d.drawString(cc.ac.getLabel(),
                         (int) (cc.getLabelXPosition() * trans.getScaleX()) + 5,
                         (int) (cc.getLabelYPosition() * trans.getScaleY()) + 5);
             }
@@ -319,12 +336,12 @@ public class CirclesPanelEx extends JPanel {
                         g2d.setColor(oldColor2);
                     }
                 }
-                if (s.as.get_name() == null) {
+                if (s.as.getName() == null) {
                     continue;
                 }
                 // TODO a proper way to place labels - it can't be a method in ConcreteSpider,
                 // we need the context in the ConcreteDiagram
-                g2d.drawString(s.as.get_name(),
+                g2d.drawString(s.as.getName(),
                         (int) ((s.feet.get(0).getX()) * trans.getScaleX()) - 5,
                         (int) ((s.feet.get(0).getY()) * trans.getScaleY()) - 10);
 
@@ -344,23 +361,6 @@ public class CirclesPanelEx extends JPanel {
                 g2d.draw(tmpCircle);
             }
         }
-    }
-
-    @Override
-    protected Graphics getComponentGraphics(Graphics g) {
-        // NOTE: Temporarily disabled SVG because of redraw problems.
-//	// Get a DOMImplementation.
-//        DOMImplementation domImpl =
-//            GenericDOMImplementation.getDOMImplementation();
-//
-//	// Create an instance of org.w3c.dom.Document.
-//        String svgNS = "http://www.w3.org/2000/svg";
-//        Document document = domImpl.createDocument(svgNS, "svg", null);
-//
-//        // Create an instance of the SVG Generator.
-//        SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
-//	return svgGenerator;
-        return super.getComponentGraphics(g);
     }
 
     @Override
@@ -524,4 +524,25 @@ public class CirclesPanelEx extends JPanel {
         return (this.getHeight() - (int) Math.round(diagram.getSize() * scaleFactor)) / 2;
     }
     // </editor-fold>
+
+    @Override
+    protected Graphics getComponentGraphics(Graphics g) {
+	return svgGenerator;
+    }
+
+    @Override
+    public String toString() {
+        // We've got to force the Component to paint
+        // particularly when we're calling toString from a non GUI app
+        paint(svgGenerator);
+
+        StringWriter  w = new StringWriter();
+
+        try {
+            svgGenerator.stream(w);
+        } catch (SVGGraphics2DIOException sg2ie) {
+            return new String("<!-- SVG Generation Failed -->");
+        }
+        return w.toString();
+    }
 }
