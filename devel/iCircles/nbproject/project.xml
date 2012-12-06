@@ -20,7 +20,7 @@
             </folders>
             <ide-actions>
                 <action name="build">
-                    <target>compile</target>
+                    <target>dist</target>
                 </action>
                 <action name="clean">
                     <target>clean</target>
@@ -36,13 +36,13 @@
                 </action>
                 <action name="rebuild">
                     <target>clean</target>
-                    <target>compile</target>
+                    <target>dist</target>
                 </action>
             </ide-actions>
             <export>
                 <type>jar</type>
                 <location>build/lib/iCircles.jar</location>
-                <build-target>compile</build-target>
+                <build-target>dist</build-target>
             </export>
             <view>
                 <items>
@@ -67,6 +67,7 @@
                     <ide-action name="test"/>
                 </context-menu>
             </view>
+            <subprojects/>
         </general-data>
         <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/3">
             <compilation-unit>
@@ -78,6 +79,7 @@
             <compilation-unit>
                 <package-root>test</package-root>
                 <unit-tests/>
+                <classpath mode="compile">lib/ant-junit.jar:lib/batik-all.jar:lib/commons-cli-1.2.jar:lib/jackson-annotations-2.0.4.jar:lib/jackson-core-2.0.4.jar:lib/jackson-databind-2.0.4.jar:lib/jcheck-0.1.jar:lib/junit4.jar:lib/log4j-1.2.17.jar:lib/xml-apis-ext.jar:build/lib/iCircles.jar</classpath>
                 <source-level>1.7</source-level>
             </compilation-unit>
         </java-data>
