@@ -3,9 +3,6 @@
     <type>org.netbeans.modules.ant.freeform</type>
     <configuration>
         <general-data xmlns="http://www.netbeans.org/ns/freeform-project/1">
-            <name>iCircles</name>
-        </general-data>
-        <general-data xmlns="http://www.netbeans.org/ns/freeform-project/2">
             <!-- Do not use Project Properties customizer when editing this file manually. -->
             <name>iCircles</name>
             <properties/>
@@ -20,110 +17,32 @@
                     <type>java</type>
                     <location>test</location>
                 </source-folder>
-                <build-file>
-                    <location>/usr/share/java/batik-all.jar</location>
-                </build-file>
             </folders>
             <ide-actions>
                 <action name="build">
-                    <script>nbproject/nbjdk.xml</script>
-                    <target>dist</target>
+                    <target>compile</target>
                 </action>
                 <action name="clean">
-                    <script>nbproject/nbjdk.xml</script>
                     <target>clean</target>
                 </action>
+                <action name="javadoc">
+                    <target>doc</target>
+                </action>
                 <action name="run">
-                    <script>nbproject/nbjdk.xml</script>
                     <target>run-test</target>
                 </action>
                 <action name="test">
-                    <script>nbproject/nbjdk.xml</script>
                     <target>test</target>
                 </action>
                 <action name="rebuild">
-                    <script>nbproject/nbjdk.xml</script>
                     <target>clean</target>
-                    <target>dist</target>
+                    <target>compile</target>
                 </action>
             </ide-actions>
             <export>
                 <type>jar</type>
-                <location>lib/batik-all.jar</location>
-                <script>nbproject/nbjdk.xml</script>
-                <build-target>dist</build-target>
-            </export>
-            <export>
-                <type>jar</type>
                 <location>build/lib/iCircles.jar</location>
-                <script>nbproject/nbjdk.xml</script>
-                <build-target>dist</build-target>
-            </export>
-            <export>
-                <type>jar</type>
-                <location>lib/ant-junit.jar</location>
-                <script>nbproject/nbjdk.xml</script>
-                <build-target>dist</build-target>
-            </export>
-            <export>
-                <type>jar</type>
-                <location>lib/batik-all.jar</location>
-                <script>nbproject/nbjdk.xml</script>
-                <build-target>dist</build-target>
-            </export>
-            <export>
-                <type>jar</type>
-                <location>lib/commons-cli-1.2.jar</location>
-                <script>nbproject/nbjdk.xml</script>
-                <build-target>dist</build-target>
-            </export>
-            <export>
-                <type>jar</type>
-                <location>lib/jackson-annotations-2.0.4.jar</location>
-                <script>nbproject/nbjdk.xml</script>
-                <build-target>dist</build-target>
-            </export>
-            <export>
-                <type>jar</type>
-                <location>lib/jackson-core-2.0.4.jar</location>
-                <script>nbproject/nbjdk.xml</script>
-                <build-target>dist</build-target>
-            </export>
-            <export>
-                <type>jar</type>
-                <location>lib/jackson-databind-2.0.4.jar</location>
-                <script>nbproject/nbjdk.xml</script>
-                <build-target>dist</build-target>
-            </export>
-            <export>
-                <type>jar</type>
-                <location>lib/jcheck-0.1.jar</location>
-                <script>nbproject/nbjdk.xml</script>
-                <build-target>dist</build-target>
-            </export>
-            <export>
-                <type>jar</type>
-                <location>lib/junit4.jar</location>
-                <script>nbproject/nbjdk.xml</script>
-                <build-target>dist</build-target>
-            </export>
-            <export>
-                <type>jar</type>
-                <location>lib/log4j-1.2.17.jar</location>
-                <script>nbproject/nbjdk.xml</script>
-                <build-target>dist</build-target>
-            </export>
-            <export>
-                <type>jar</type>
-                <location>lib/xml-apis-ext.jar</location>
-                <script>nbproject/nbjdk.xml</script>
-                <build-target>dist</build-target>
-            </export>
-            <export>
-                <type>jar</type>
-                <location>/usr/share/java/batik-all.jar</location>
-                <script>nbproject/nbjdk.xml</script>
-                <build-target>dist</build-target>
+                <build-target>compile</build-target>
             </export>
             <view>
                 <items>
@@ -143,37 +62,22 @@
                     <ide-action name="build"/>
                     <ide-action name="rebuild"/>
                     <ide-action name="clean"/>
+                    <ide-action name="javadoc"/>
                     <ide-action name="run"/>
                     <ide-action name="test"/>
                 </context-menu>
             </view>
-            <subprojects>
-                <project>.</project>
-            </subprojects>
         </general-data>
         <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/3">
             <compilation-unit>
                 <package-root>src</package-root>
-                <classpath mode="compile">lib/ant-junit.jar:lib/batik-all.jar:lib/commons-cli-1.2.jar:lib/jackson-annotations-2.0.4.jar:lib/jackson-core-2.0.4.jar:lib/jackson-databind-2.0.4.jar:lib/jcheck-0.1.jar:lib/junit4.jar:lib/log4j-1.2.17.jar:lib/xml-apis-ext.jar:/usr/share/java/batik-all.jar</classpath>
-                <built-to>lib/batik-all.jar</built-to>
+                <classpath mode="compile">lib/ant-junit.jar:lib/batik-all.jar:lib/commons-cli-1.2.jar:lib/jackson-annotations-2.0.4.jar:lib/jackson-core-2.0.4.jar:lib/jackson-databind-2.0.4.jar:lib/jcheck-0.1.jar:lib/junit4.jar:lib/log4j-1.2.17.jar:lib/xml-apis-ext.jar</classpath>
                 <built-to>build/lib/iCircles.jar</built-to>
-                <built-to>lib/ant-junit.jar</built-to>
-                <built-to>lib/batik-all.jar</built-to>
-                <built-to>lib/commons-cli-1.2.jar</built-to>
-                <built-to>lib/jackson-annotations-2.0.4.jar</built-to>
-                <built-to>lib/jackson-core-2.0.4.jar</built-to>
-                <built-to>lib/jackson-databind-2.0.4.jar</built-to>
-                <built-to>lib/jcheck-0.1.jar</built-to>
-                <built-to>lib/junit4.jar</built-to>
-                <built-to>lib/log4j-1.2.17.jar</built-to>
-                <built-to>lib/xml-apis-ext.jar</built-to>
-                <built-to>/usr/share/java/batik-all.jar</built-to>
                 <source-level>1.7</source-level>
             </compilation-unit>
             <compilation-unit>
                 <package-root>test</package-root>
                 <unit-tests/>
-                <classpath mode="compile">lib/ant-junit.jar:lib/batik-all.jar:lib/jcheck-0.1.jar:lib/junit4.jar</classpath>
                 <source-level>1.7</source-level>
             </compilation-unit>
         </java-data>
