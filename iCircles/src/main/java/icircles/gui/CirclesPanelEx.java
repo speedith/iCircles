@@ -27,23 +27,20 @@
 package icircles.gui;
 
 import icircles.concreteDiagram.*;
+import org.apache.batik.dom.GenericDOMImplementation;
+import org.apache.batik.svggen.SVGGraphics2D;
+import org.apache.batik.svggen.SVGGraphics2DIOException;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Ellipse2D.Double;
-import java.util.ArrayList;
-
 import java.io.StringWriter;
-
-import javax.swing.JPanel;
-
-import org.apache.batik.svggen.SVGGraphics2D;
-import org.apache.batik.svggen.SVGGraphics2DIOException;
-import org.apache.batik.dom.GenericDOMImplementation;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.DOMImplementation;
+import java.util.ArrayList;
 
 /**
  * This panel takes a {@link ConcreteDiagram concrete diagram} and draws it.
@@ -52,28 +49,6 @@ import org.w3c.dom.DOMImplementation;
  */
 public class CirclesPanelEx extends JPanel {
 
-    // Get a DOMImplementation.
-    private DOMImplementation domImpl =
-        GenericDOMImplementation.getDOMImplementation();
-
-    // Create an instance of org.w3c.dom.Document.
-    private String svgNS = "http://www.w3.org/2000/svg";
-    private Document document = domImpl.createDocument(svgNS, "svg", null);
-
-    // Create an instance of the SVG Generator.
-    private SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
-
-    // <editor-fold defaultstate="collapsed" desc="Private Fields">
-    /**
-     * The diagram that will actually be drawn in this panel.
-     */
-    private ConcreteDiagram diagram;
-    /**
-     * The scale that should be applied to the circles in this diagram (due to
-     * the resizing of this panel).
-     */
-    private double scaleFactor = 1;
-    private AffineTransform trans = new AffineTransform();
     /**
      * This stroke is used to draw contours if no special stroke is specified
      * for them.
@@ -88,13 +63,29 @@ public class CirclesPanelEx extends JPanel {
     private static final Color HIGHLIGHT_STROKE_COLOUR = Color.RED;
     private static final Color HIGHLIGHT_ZONE_COLOUR = new Color(0x70ff0000, true); // Color.RED;
     private static final double HIGHLIGHTED_FOOT_SCALE = 1.4;
+    private static final long serialVersionUID = 0x5b7fd085e1dff1a0L;
+    // Get a DOMImplementation.
+    private DOMImplementation domImpl =
+            GenericDOMImplementation.getDOMImplementation();
+    // Create an instance of org.w3c.dom.Document.
+    private String svgNS = "http://www.w3.org/2000/svg";
+    private Document document = domImpl.createDocument(svgNS, "svg", null);
+    // Create an instance of the SVG Generator.
+    private SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
+    /**
+     * The diagram that will actually be drawn in this panel.
+     */
+    private ConcreteDiagram diagram;
+    /**
+     * The scale that should be applied to the circles in this diagram (due to
+     * the resizing of this panel).
+     */
+    private double scaleFactor = 1;
+    private AffineTransform trans = new AffineTransform();
     private CircleContour highlightedContour = null;
     private ConcreteZone highlightedZone = null;
     private ConcreteSpiderFoot highlightedFoot = null;
-    private static final long serialVersionUID = 0x5b7fd085e1dff1a0L;
-    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Constructor">
     /**
      * Creates new panel that will draw the given diagram.
      *
@@ -112,16 +103,16 @@ public class CirclesPanelEx extends JPanel {
     public CirclesPanelEx() {
         this(null);
     }
-    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">
-    private void initComponents() {
-        setBackground(new java.awt.Color(255, 255, 255));
-        setLayout(null);
+    /**
+     * Gets the diagram that is currently being displayed by this panel.
+     *
+     * @return the diagram that is currently being displayed by this panel.
+     */
+    public ConcreteDiagram getDiagram() {
+        return diagram;
     }
-    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Public Properties">
     /**
      * Sets the diagram that should be displayed by this panel.
      *
@@ -134,27 +125,32 @@ public class CirclesPanelEx extends JPanel {
     }
 
     /**
-     * Gets the diagram that is currently being displayed by this panel.
-     *
-     * @return the diagram that is currently being displayed by this panel.
-     */
-    public ConcreteDiagram getDiagram() {
-        return diagram;
-    }
-
-    /**
      * Returns the factor by which the {@link ConcreteDiagram drawn concrete
      * diagram} is scaled. The scaling is done so that the diagram fits the panel
      * nicely.
+     *
      * @return the factor by which the {@link ConcreteDiagram drawn concrete
-     * diagram} is scaled.
+     *         diagram} is scaled.
      */
     public final double getScaleFactor() {
         return scaleFactor;
     }
-    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Public Methods">
+    /**
+     * Sets the scale factor of the drawn contents to the new value. <p>This
+     * merely scales the drawn contents (without affecting the thickness of
+     * curves, size of spiders or fonts).</p> <p>Note: this method does not
+     * change the size of the panel (not even the preferred size).</p>
+     *
+     * @param newScaleFactor the new factor by which to scale the drawn
+     *                       contents.
+     */
+    private void setScaleFactor(double newScaleFactor) {
+        scaleFactor = newScaleFactor;
+        recalculateTransform();
+        repaint();
+    }
+
     /**
      * Converts the given point from the coordinate system of this panel to the
      * coordinate system of the {@link CirclesPanelEx#getDiagram() displayed
@@ -163,7 +159,7 @@ public class CirclesPanelEx extends JPanel {
      *
      * @param p the coordinates which to convert.
      * @return the coordinates of the corresponding point in the coordinate
-     * system of the {@link CirclesPanelEx#getDiagram() displayed diagram}.
+     *         system of the {@link CirclesPanelEx#getDiagram() displayed diagram}.
      */
     public Point toDiagramCoordinates(Point p) {
         p.x -= getCenteringTranslationX();
@@ -172,64 +168,20 @@ public class CirclesPanelEx extends JPanel {
         p.y /= scaleFactor;
         return p;
     }
-    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Highlighting">
-    protected ConcreteZone getHighlightedZone() {
-        return highlightedZone;
-    }
-
-    protected void setHighlightedZone(ConcreteZone highlightedZone) {
-        if (this.highlightedZone != highlightedZone) {
-            setHighlightedContour(null);
-            setHighlightedFoot(null);
-//            repaintShape(this.highlightedZone);
-            this.highlightedZone = highlightedZone;
-//            repaintShape(this.highlightedZone);
-            repaint();
-        }
-    }
-
-    protected CircleContour getHighlightedContour() {
-        return highlightedContour;
-    }
-
-    protected void setHighlightedContour(CircleContour highlightedContour) {
-        if (this.highlightedContour != highlightedContour) {
-            setHighlightedZone(null);
-            setHighlightedFoot(null);
-//            repaintShape(this.highlightedContour);
-            this.highlightedContour = highlightedContour;
-//            repaintShape(this.highlightedContour);
-            repaint();
-        }
-    }
-
-    protected ConcreteSpiderFoot getHighlightedFoot() {
-        return highlightedFoot;
-    }
-
-    protected void setHighlightedFoot(ConcreteSpiderFoot foot) {
-        if (this.highlightedFoot != foot) {
-            setHighlightedZone(null);
-            setHighlightedContour(null);
-            this.highlightedFoot = foot;
-            repaint();
-        }
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Drawing">
     @Override
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         if (diagram == null) {
             this.setBackground(Color.red);
+            g2d.clearRect(0, 0, getWidth(), getHeight());
             super.paint(g);
         } else {
-            // draw the diagram
             super.paint(g);
+
+            g2d.setBackground(Color.white);
+            g2d.clearRect(0, 0, getWidth(), getHeight());
 
             // This centers the diagram onto the drawing area.
             g.translate(getCenteringTranslationX(), getCenteringTranslationY());
@@ -295,8 +247,8 @@ public class CirclesPanelEx extends JPanel {
                  */
 
                 g2d.drawString(cc.ac.getLabel(),
-                        (int) (cc.getLabelXPosition() * trans.getScaleX()) + 5,
-                        (int) (cc.getLabelYPosition() * trans.getScaleY()) + 5);
+                               (int) (cc.getLabelXPosition() * trans.getScaleX()) + 5,
+                               (int) (cc.getLabelYPosition() * trans.getScaleY()) + 5);
             }
 
             ConcreteSpider highlightedSpider = getHighlightedFoot() == null ? null : getHighlightedFoot().getSpider();
@@ -312,7 +264,6 @@ public class CirclesPanelEx extends JPanel {
                     g2d.setStroke(HIGHLIGHT_STROKE);
                 }
 
-                // TODO: Do not scale the feet. Let them be of fixed size. But fix the positioning!
                 for (ConcreteSpiderLeg leg : s.legs) {
 
                     g2d.drawLine(
@@ -342,8 +293,8 @@ public class CirclesPanelEx extends JPanel {
                 // TODO a proper way to place labels - it can't be a method in ConcreteSpider,
                 // we need the context in the ConcreteDiagram
                 g2d.drawString(s.as.getName(),
-                        (int) ((s.feet.get(0).getX()) * trans.getScaleX()) - 5,
-                        (int) ((s.feet.get(0).getY()) * trans.getScaleY()) - 10);
+                               (int) ((s.feet.get(0).getX()) * trans.getScaleX()) - 5,
+                               (int) ((s.feet.get(0).getY()) * trans.getScaleY()) - 10);
 
                 // Reset the stroke and colour appropriatelly.
                 if (highlightedSpider == s) {
@@ -368,16 +319,72 @@ public class CirclesPanelEx extends JPanel {
         super.setBounds(x, y, width, height);
         resizeContents();
     }
-    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Private Utility Methods">
+    @Override
+    public String toString() {
+        // We've got to force the Component to paint
+        // particularly when we're calling toString from a non GUI app
+        paint(svgGenerator);
+
+        StringWriter w = new StringWriter();
+
+        try {
+            svgGenerator.stream(w);
+        } catch (SVGGraphics2DIOException sg2ie) {
+            return "<!-- SVG Generation Failed -->";
+        }
+        return w.toString();
+    }
+
+    private void initComponents() {
+        setBackground(new java.awt.Color(255, 255, 255));
+        setLayout(null);
+    }
+
+    protected ConcreteZone getHighlightedZone() {
+        return highlightedZone;
+    }
+
+    protected void setHighlightedZone(ConcreteZone highlightedZone) {
+        if (this.highlightedZone != highlightedZone) {
+            setHighlightedContour(null);
+            setHighlightedFoot(null);
+            this.highlightedZone = highlightedZone;
+            repaint();
+        }
+    }
+
+    protected CircleContour getHighlightedContour() {
+        return highlightedContour;
+    }
+
+    protected void setHighlightedContour(CircleContour highlightedContour) {
+        if (this.highlightedContour != highlightedContour) {
+            setHighlightedZone(null);
+            setHighlightedFoot(null);
+            this.highlightedContour = highlightedContour;
+            repaint();
+        }
+    }
+
+    protected ConcreteSpiderFoot getHighlightedFoot() {
+        return highlightedFoot;
+    }
+
+    protected void setHighlightedFoot(ConcreteSpiderFoot foot) {
+        if (this.highlightedFoot != foot) {
+            setHighlightedZone(null);
+            setHighlightedContour(null);
+            this.highlightedFoot = foot;
+            repaint();
+        }
+    }
+
     /**
      * This method sets the given diagram as the one to be displayed. <p>It
      * refreshes the {@link CirclesPanelEx#setPreferredSize(java.awt.Dimension)
      * preferred size} of this panel and requests a refresh of the drawing area
      * accordingly.</p>
-     *
-     * @param diagram
      */
     private void resetDiagram(ConcreteDiagram diagram) {
         this.diagram = diagram;
@@ -402,21 +409,6 @@ public class CirclesPanelEx extends JPanel {
     }
 
     /**
-     * Sets the scale factor of the drawn contents to the new value. <p>This
-     * merely scales the drawn contents (without affecting the thickness of
-     * curves, size of spiders or fonts).</p> <p>Note: this method does not
-     * change the size of the panel (not even the preferred size).</p>
-     *
-     * @param newScaleFactor the new factor by which to scale the drawn
-     * contents.
-     */
-    private void setScaleFactor(double newScaleFactor) {
-        scaleFactor = newScaleFactor;
-        recalculateTransform();
-        repaint();
-    }
-
-    /**
      * Compares the width and height of this panel and tries to scale the
      * concrete diagram's box so that it nicely fits the contents of the panel.
      */
@@ -427,10 +419,6 @@ public class CirclesPanelEx extends JPanel {
     /**
      * Puts the scaled coordinates, width and height of {@code inCircle} into
      * the {@code outCircle} (without changing {@code inCircle}).
-     *
-     * @param scaleFactor
-     * @param inCircle
-     * @param outCircle
      */
     private static void transformCircle(double scaleFactor, Ellipse2D.Double inCircle, Ellipse2D.Double outCircle) {
         translateCircle(scaleFactor, inCircle, outCircle);
@@ -441,10 +429,6 @@ public class CirclesPanelEx extends JPanel {
      * Translates the circle to match the scale factor. The changed
      * coordinates are written to the {@code outCircle} (without changing
      * {@code inCircle}).
-     *
-     * @param scaleFactor
-     * @param inCircle
-     * @param outCircle
      */
     private static void translateCircle(double scaleFactor, Ellipse2D.Double inCircle, Ellipse2D.Double outCircle) {
         outCircle.x = inCircle.x * scaleFactor;
@@ -456,10 +440,6 @@ public class CirclesPanelEx extends JPanel {
      * the centre if the circle was translated and then scaled. The new
      * coordinates are written to the {@code outCircle} (without changing
      * {@code inCircle}).
-     *
-     * @param scaleFactor
-     * @param inCircle
-     * @param outCircle
      */
     private static void translateCircleCentre(double scaleFactor, Ellipse2D.Double inCircle, Ellipse2D.Double outCircle) {
         final double correctionFactor = (scaleFactor - 1) / 2;
@@ -471,10 +451,6 @@ public class CirclesPanelEx extends JPanel {
      * Scales the circle to match the scale factor. The changed
      * width and height are written to the {@code outCircle} (without changing
      * {@code inCircle}).
-     *
-     * @param scaleFactor
-     * @param inCircle
-     * @param outCircle
      */
     private static void scaleCircle(double scaleFactor, Ellipse2D.Double inCircle, Ellipse2D.Double outCircle) {
         outCircle.width = inCircle.width * scaleFactor;
@@ -483,9 +459,6 @@ public class CirclesPanelEx extends JPanel {
 
     /**
      * Scales the given circle while preserving the location of its centre.
-     *
-     * @param circle
-     * @param scale
      */
     private static void scaleCircleCentrally(Double circle, double scale) {
         circle.x -= circle.width * (scale - 1) / 2;
@@ -497,8 +470,6 @@ public class CirclesPanelEx extends JPanel {
     /**
      * Issues a repaint of the content of this panel within the bounds of the
      * given shape.
-     *
-     * @param shape
      */
     private void repaintShape(Shape shape) {
         if (shape != null) {
@@ -508,8 +479,6 @@ public class CirclesPanelEx extends JPanel {
 
     /**
      * Returns the horizontal centring translation of the diagram.
-     *
-     * @return
      */
     private int getCenteringTranslationX() {
         return (this.getWidth() - (int) Math.round(diagram.getSize() * scaleFactor)) / 2;
@@ -517,32 +486,13 @@ public class CirclesPanelEx extends JPanel {
 
     /**
      * Returns the vertical centring translation of the diagram.
-     *
-     * @return
      */
     private int getCenteringTranslationY() {
         return (this.getHeight() - (int) Math.round(diagram.getSize() * scaleFactor)) / 2;
     }
-    // </editor-fold>
 
     @Override
     protected Graphics getComponentGraphics(Graphics g) {
-	return svgGenerator;
-    }
-
-    @Override
-    public String toString() {
-        // We've got to force the Component to paint
-        // particularly when we're calling toString from a non GUI app
-        paint(svgGenerator);
-
-        StringWriter  w = new StringWriter();
-
-        try {
-            svgGenerator.stream(w);
-        } catch (SVGGraphics2DIOException sg2ie) {
-            return new String("<!-- SVG Generation Failed -->");
-        }
-        return w.toString();
+        return svgGenerator;
     }
 }
