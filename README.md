@@ -1,6 +1,8 @@
 # iCircles
 --------------------------------------------------------------------------------
 
+[![Build Status](https://travis-ci.org/speedith/iCircles.svg?branch=master)](https://travis-ci.org/speedith/iCircles)
+
 iCircles (short for Inductive Cirles) is a library for drawing spider diagrams (see http://www.eulerdiagrams.com/inductivecircles.html for more info).
 
 The iCircles algorithm is detailed in the following paper:
