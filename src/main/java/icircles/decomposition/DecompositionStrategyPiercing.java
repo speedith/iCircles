@@ -164,6 +164,9 @@ public class DecompositionStrategyPiercing extends DecompositionStrategy {
 
     private int powerOfTwo(int n) // return result where  n = 2^(result)
     {
+        if (n <= 0) {
+            return -1;
+        }
         int result = 0;
         while (n % 2 == 0) {
             result++;
