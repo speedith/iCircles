@@ -30,17 +30,12 @@ package icircles.abstractDescription;
  * policies, either expressed or implied, of the iCircles Project.
  */
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import org.apache.log4j.Logger;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
+import java.util.*;
 
 /**
  * An AbstractDescription encapsulates the elements of a diagram, with no drawn information.
@@ -55,10 +50,10 @@ import org.apache.log4j.Level;
  * <li>Every shaded zone is also a zone.</li>
  * <li>Every contour must have a zone inside it.</li>
  * </ol>
- * </p>
+ * <p>
  * Currently, there is no checking done to ensure that conditions 1--4 are
  * adhered to.  As such, you can create invalid diagrams.
- *
+ * <p>
  * TODO: add a coherence check on these internal checks.
  */
 public class AbstractDescription {

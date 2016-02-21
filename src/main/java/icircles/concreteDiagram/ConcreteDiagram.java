@@ -80,11 +80,9 @@ public class ConcreteDiagram {
             return result;
         }
 
-        Iterator<CircleContour> cIt = circles.iterator();
-        while (cIt.hasNext()) {
-            CircleContour c = cIt.next();
-            logger.debug("build checksum for contour at coords (" + c.cx 
-                         + ", " + c.cy + ") radius "+ c.radius +"\n");
+        for (CircleContour c : circles) {
+            logger.debug("build checksum for contour at coords (" + c.cx
+              + ", " + c.cy + ") radius " + c.radius + "\n");
             result += c.cx * 0.345 + c.cy * 0.456 + c.radius * 0.567 + c.ac.checksum() * 0.555;
             result *= 1.2;
         }
@@ -94,9 +92,7 @@ public class ConcreteDiagram {
     private double shading_checksum() {
 
         double result = 0.0;
-        Iterator<ConcreteZone> czIt = shadedZones.iterator();
-        while (czIt.hasNext()) {
-            ConcreteZone cz = czIt.next();
+        for (ConcreteZone cz : shadedZones) {
             logger.debug("build checksum for shading\n");
 
             result += cz.abr.checksum() * 1000.0;
@@ -111,9 +107,7 @@ public class ConcreteDiagram {
             return result;
         }
 
-        Iterator<ConcreteSpider> sIt = spiders.iterator();
-        while (sIt.hasNext()) {
-            ConcreteSpider s = sIt.next();
+        for (ConcreteSpider s : spiders) {
             logger.debug("build checksum for spider\n");
 
             result += s.checksum();
@@ -139,8 +133,8 @@ public class ConcreteDiagram {
      *
      * @param ad the description to be drawn
      * @param size the size of the drawing panel
-     * @return
-     * @throws CannotDrawException
+     * @return the concrete diagram based on the abstract diagram and the drawing panel size.
+     * @throws CannotDrawException thrown if the abstract description fails {@link AbstractDescription#checksOk() checks}
      */
     public static ConcreteDiagram makeConcreteDiagram(AbstractDescription ad, int size) throws CannotDrawException {
         // TODO
@@ -149,36 +143,9 @@ public class ConcreteDiagram {
             throw new CannotDrawException("badly formed diagram spec");
         }
         DiagramCreator dc = new DiagramCreator(ad);
-        ConcreteDiagram cd = dc.createDiagram(size);
-        return cd;
+        return dc.createDiagram(size);
     }
 
-/*
- *     public static void main(String[] args) {
-        //DEB.level = 3;
-        AbstractDescription ad = AbstractDescription.makeForTesting("a ab b c",
-                true); // randomised shading
-
-        String failuremessage = "no failure";
-        ConcreteDiagram cd = null;
-        try {
-            cd = ConcreteDiagram.makeConcreteDiagram(ad, 300);
-        } catch (CannotDrawException ex) {
-            failuremessage = ex.message;
-        }
-
-        CirclesPanel cp = new CirclesPanel("a sample CirclesPanel", failuremessage, cd,
-                true); // do use colors
-        cp.setAutoRescale(true);
-
-        JFrame viewingFrame = new JFrame("frame to hold a CirclesPanel");
-        viewingFrame.getContentPane().add(cp);
-        viewingFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        viewingFrame.pack();
-        viewingFrame.setVisible(true);
-    }
-*/
-    
     public ArrayList<ConcreteSpider> getSpiders() {
         return spiders;
     }
@@ -204,9 +171,9 @@ public class ConcreteDiagram {
      * @param p the coordinates at which to look for a spider's foot. <p>These
      * are the coordinates in the diagram's own local coordinate system. Thus,
      * if you look up elements with a point in the coordinate system of {@link
-     * CirclesPanel2 a panel} then you first have to convert the coordinates
+     * icircles.gui.CirclesPanelEx a panel} then you first have to convert the coordinates
      * of the point with {@link
-     * CirclesPanel2#toDiagramCoordinates(java.awt.Point)} and then use the
+     * icircles.gui.CirclesPanelEx#toDiagramCoordinates(java.awt.Point)} and then use the
      * resulting point as an argument to this method.</p>
      * @return the {@link ConcreteSpiderFoot spider foot} located at the given
      * coordinates. <p>Returns {@code null} if no foot is located on the given
@@ -235,9 +202,9 @@ public class ConcreteDiagram {
      * @param p the coordinates at which to look for a spider's foot. <p>These
      * are the coordinates in the diagram's own local coordinate system. Thus,
      * if you look up elements with a point in the coordinate system of {@link
-     * CirclesPanel2 a panel} then you first have to convert the coordinates
+     * icircles.gui.CirclesPanelEx a panel} then you first have to convert the coordinates
      * of the point with {@link
-     * CirclesPanel2#toDiagramCoordinates(java.awt.Point)} and then use the
+     * icircles.gui.CirclesPanelEx#toDiagramCoordinates(java.awt.Point)} and then use the
      * resulting point as an argument to this method.</p>
      * @param scaleFactor the scale factor with which to multiply the distance
      * between the given point and particular spiders.
@@ -269,9 +236,9 @@ public class ConcreteDiagram {
      * @param p the coordinates at which to look for a circle contour. <p>These
      * are the coordinates in the diagram's own local coordinate system. Thus,
      * if you look up elements with a point in the coordinate system of {@link
-     * CirclesPanel2 a panel} then you first have to convert the coordinates
+     * icircles.gui.CirclesPanelEx a panel} then you first have to convert the coordinates
      * of the point with {@link
-     * CirclesPanel2#toDiagramCoordinates(java.awt.Point)} and then use the
+     * icircles.gui.CirclesPanelEx#toDiagramCoordinates(java.awt.Point)} and then use the
      * resulting point as an argument to this method.</p>
      * @param tolerance the distance from the contour which is still considered
      * a hit.
@@ -297,9 +264,9 @@ public class ConcreteDiagram {
      * @param p the coordinates at which to look for the zone. <p>These
      * are the coordinates in the diagram's own local coordinate system. Thus,
      * if you look up elements with a point in the coordinate system of {@link
-     * CirclesPanel2 a panel} then you first have to convert the coordinates
+     * icircles.gui.CirclesPanelEx a panel} then you first have to convert the coordinates
      * of the point with {@link
-     * CirclesPanel2#toDiagramCoordinates(java.awt.Point)} and then use the
+     * icircles.gui.CirclesPanelEx#toDiagramCoordinates(java.awt.Point)} and then use the
      * resulting point as an argument to this method.</p>
      * @return the {@link ConcreteZone zone} that contains the given point.
      * <p>Returns {@code null} if no zone is located at the given
