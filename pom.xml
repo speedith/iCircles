@@ -3,26 +3,19 @@
 
   <groupId>si.urbas</groupId>
   <artifactId>icircles</artifactId>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>0.0.3-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>iCircles</name>
   <url>https://github.com/urbas/iCircles</url>
-
-  <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>7</version>
-  </parent>
+  <description>iCircles (short for Inductive Circles) is a library for drawing euler diagrams and spider diagrams (see http://www.eulerdiagrams.com/inductivecircles.html for more info).</description>
 
   <distributionManagement>
     <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus Snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
     <repository>
-      <id>sonatype-nexus-staging</id>
-      <name>Nexus Staging Repository</name>
+      <id>ossrh</id>
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
@@ -51,6 +44,30 @@
     <url>https://github.com/urbas/iCircles</url>
   </scm>
 
+  <profiles>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
       <plugin>
@@ -59,7 +76,7 @@
         <version>2.10.1</version>
         <executions>
           <execution>
-            <id>documentation</id>
+            <id>attach-javadocs</id>
             <phase>prepare-package</phase>
             <goals>
               <goal>jar</goal>
@@ -74,7 +91,7 @@
         <version>2.3</version>
         <executions>
           <execution>
-            <id>gathersource</id>
+            <id>attach-sources</id>
             <phase>prepare-package</phase>
             <goals>
               <goal>jar</goal>
@@ -86,12 +103,12 @@
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>1.6.4</version>
+        <version>1.6.6</version>
         <extensions>true</extensions>
         <configuration>
-          <!-- The Base URL of Nexus instance where we want to stage -->
+          <serverId>ossrh</serverId>
           <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-          <serverId>sonatype-nexus-staging</serverId>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
         </configuration>
       </plugin>
     </plugins>

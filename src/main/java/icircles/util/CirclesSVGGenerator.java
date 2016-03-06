@@ -30,8 +30,8 @@ public class CirclesSVGGenerator {
     private ConcreteDiagram diagram;
 
     /**
-     *
-     * @throws IllegalArgumentException
+     * @param d the concrete diagram that should be output to SVG.
+     * @throws IllegalArgumentException thrown if the given concrete diagram is {@code null}.
      */
     public CirclesSVGGenerator(ConcreteDiagram d) {
         if(null == d) {
@@ -48,7 +48,7 @@ public class CirclesSVGGenerator {
      * on screen rendering (such as better label placement) we will, in future,
      * have to build a GVT (from the Batik library) of the SVGDocument.
      *
-     * @returns An SVGDocument DOM structure representing the SVG.
+     * @return An SVGDocument DOM structure representing the SVG.
      */
     public SVGDocument toSVG() {
         // Get a DOMImplementation.

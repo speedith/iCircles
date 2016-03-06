@@ -322,11 +322,10 @@ public class CirclesPanel extends JPanel {
     }
 
     /**
-     * This can be used to obtain a drawing of an abstract diagram.
      * @param ad the description to be drawn
+     * @param diagText the title of the drawing
      * @param size the size of the drawing panel
-     * @return
-     * @throws CannotDrawException
+     * @return a drawing of an abstract diagram.
      */
     public static CirclesPanel makeCirclesPanel(AbstractDescription ad,
             String diagText,
@@ -344,32 +343,6 @@ public class CirclesPanel extends JPanel {
         	return new CirclesPanel(diagText, failuremessage, size); // do use colors
     }
 
-    /*
-     * public static void main(String[] args) {
-        // See the implementation of makeForTesting to see how to make an 
-        // AbstractDescription from scratch.
-        AbstractDescription ad = AbstractDescription.makeForTesting(
-        		//"a ab abc ac",
-        		//"qh h fh ih ik kh b ab ac de bd  abc bfg fc bj l lc al m mn nc bc bco bo boj bp bop cq cqb rs ra s t");
-                "qh h fh ih ik kh b ab ac de bd  abc bfg fc bj l lc al m mn nc bc bco bo boj bp bop cq cqb rs ra s",
-                true); // randomised shading
-        //"a ab b c");
-
-        DEB.level = 3; // generates intermediate frames
-
-        int size = 300;
-
-        CirclesPanel cp = CirclesPanel.makeCirclesPanel(ad, "a sample diagram", size);
-
-        JFrame viewingFrame = new JFrame("frame to hold a CirclesPanel");
-        JScrollPane scrollPane = new JScrollPane(cp);
-        viewingFrame.getContentPane().setPreferredSize(new Dimension(Math.min(size, 800), Math.min(size, 800)));
-        viewingFrame.getContentPane().add(scrollPane);
-        viewingFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        viewingFrame.pack();
-        viewingFrame.setVisible(true);
-    }*/
-
     ArrayList<CircleContour> getAllCircles() {
         return cd.getCircles();
     }
@@ -385,13 +358,12 @@ public class CirclesPanel extends JPanel {
     }
 
     /**
-     * Returns the size for which the concrete diagram has been drawn.
+     * @return the size for which the concrete diagram has been drawn.
      * <p>This is the size of the drawn contents of this panel when the {@link
      * CirclesPanel#setScaleFactor(double) scale factor} is set to 1.</p>
      * <p>The size of the drawn diagram can be calculated by multiplying
      * {@link CirclesPanel#getScaleFactor()} with
      * {@link CirclesPanel#getOriginalSize()}.</p>
-     * @return the size for which the concrete diagram has been drawn.
      */
     int getOriginalSize() {
         return this.cd.getSize();
@@ -406,18 +378,16 @@ public class CirclesPanel extends JPanel {
     }
 
     /**
-     * Indicates whether this diagram panel should rescale its drawn
+     * @return a value that indicates whether this diagram panel should rescale its drawn
      * contents to fit its current size.
-     * @return 
      */
     public boolean isAutoRescale() {
         return dp.isAutoRescale();
     }
 
     /**
-     * Tells this panel whether it should rescale its drawn
+     * @param autoRescale Tells this panel whether it should rescale its drawn
      * contents to fit its current size.
-     * @param autoRescale 
      */
     public void setAutoRescale(boolean autoRescale) {
         dp.setAutoRescale(autoRescale);
