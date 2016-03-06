@@ -63,21 +63,14 @@ Say you are working towards releasing version `1.2.3` and you want to release so
 
 Say want to release version `1.2.3`.
 
-1. Perform the release:
-
-    ```bash
-    RELEASE_VERSION=0.0.2 && \
-      mvn versions:set -DnewVersion=$RELEASE_VERSION && \
-      git commit -am "Release $RELEASE_VERSION." && \
-      git tag v$RELEASE_VERSION && \
-      git push --tags && \
-      mvn clean deploy -P release
-    ```
-
-1.  Set the next development version:
-
-    ```bash
-    NEXT_DEV_VERSION=0.0.3-SNAPSHOT && \
-      mvn versions:set -DnewVersion=$NEXT_DEV_VERSION && \
-      git commit -am "Setting the next development version to $NEXT_DEV_VERSION."
-    ```
+```bash
+RELEASE_VERSION=1.2.3 && \
+NEXT_DEV_VERSION=1.2.4-SNAPSHOT && \
+  mvn versions:set -DnewVersion=$RELEASE_VERSION && \
+  mvn clean deploy -P release && \
+  git commit -am "Release $RELEASE_VERSION." && \
+  git tag v$RELEASE_VERSION && \
+  git push --tags && \
+  mvn versions:set -DnewVersion=$NEXT_DEV_VERSION && \
+  git commit -am "Setting the next development version to $NEXT_DEV_VERSION."
+```
