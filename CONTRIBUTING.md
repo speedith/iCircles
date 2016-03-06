@@ -72,5 +72,5 @@ NEXT_DEV_VERSION=1.2.4-SNAPSHOT && \
   git tag v$RELEASE_VERSION && \
   git push --tags && \
   mvn versions:set -DnewVersion=$NEXT_DEV_VERSION && \
-  git commit -am "Setting the next development version to $NEXT_DEV_VERSION."
+  git commit -am "Sets the next dev version to $NEXT_DEV_VERSION."
 ```
